@@ -1,0 +1,34 @@
+{
+    "R\u00e9gression Logistique": {
+        "C": 1.0,
+        "max_iter": 1000,
+        "penalty": "l2",
+        "solver": "liblinear"
+    },
+    "K-Nearest Neighbors": {
+        "metric": "manhattan",
+        "n_neighbors": 3,
+        "weights": "uniform"
+    },
+    "Arbre de D\u00e9cision": {
+        "criterion": "entropy",
+        "max_depth": 4,
+        "min_samples_split": 2
+    },
+    "For\u00eat Al\u00e9atoire": {
+        "max_depth": 8,
+        "max_features": "log2",
+        "min_samples_split": 5,
+        "n_estimators": 50
+    },
+    "Support Vector Machine (SVM)": {
+        "C": 5.0,
+        "gamma": "scale",
+        "kernel": "rbf"
+    },
+    "Gradient Boosting": {
+        "learning_rate": 0.2,
+        "max_depth": 2,
+        "n_estimators": 100
+    }
+}

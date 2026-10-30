@@ -1,0 +1,397 @@
+\documentclass[a4paper,11pt]{article}
+
+% ===== Packages =====
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage[pdfborder={0 0 0}, colorlinks=true, linkcolor=primarygreen, urlcolor=javadocblue, citecolor=primarygreen]{hyperref}
+
+% ===== Configuration Géométrie & Espacements =====
+\geometry{
+	a4paper,
+	top=2.2cm,
+	bottom=2.0cm,
+	left=1.8cm,
+	right=1.8cm,
+	headheight=24pt,
+	headsep=12pt,
+	footskip=16pt
+}
+
+\setstretch{1.08}
+\setlength{\parskip}{3pt}
+\setlength{\parindent}{0pt}
+
+% Couleurs Charte INSEA & Rôles
+\definecolor{primarygreen}{rgb}{0.0, 0.36, 0.22}
+\definecolor{accentblue}{rgb}{0.12, 0.44, 0.73}
+\definecolor{darkslate}{rgb}{0.18, 0.24, 0.31}
+\definecolor{accentred}{rgb}{0.85, 0.20, 0.20}
+\definecolor{accentorange}{rgb}{0.88, 0.45, 0.12}
+\definecolor{javadocblue}{rgb}{0.20, 0.35, 0.75}
+\definecolor{lightgraybg}{rgb}{0.96, 0.97, 0.98}
+
+% Styles de boîtes tcolorbox
+\tcbset{
+	speechbox/.style={
+		colback=lightgraybg,
+		colframe=primarygreen,
+		coltitle=white,
+		fonttitle=\bfseries\small,
+		arc=3mm,
+		boxrule=1pt,
+		left=3mm, right=3mm, top=2mm, bottom=2mm,
+		before skip=6pt, after skip=8pt
+	},
+	qabox/.style={
+		colback=white,
+		colframe=accentblue,
+		coltitle=white,
+		fonttitle=\bfseries\small,
+		arc=2mm,
+		boxrule=0.8pt,
+		left=3mm, right=3mm, top=2mm, bottom=2mm,
+		before skip=6pt, after skip=6pt
+	},
+	speakerbox/.style={
+		colback=white,
+		colframe=darkslate,
+		fonttitle=\bfseries\small,
+		arc=2mm,
+		boxrule=0.8pt,
+		left=3mm, right=3mm, top=2mm, bottom=2mm
+	}
+}
+
+% En-tête et pied de page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-1.5pt}{\includegraphics[height=18pt,keepaspectratio]{logos/head.png}}}
+\fancyhead[R]{\small\color{darkslate}\textbf{Guide \& Script de Soutenance Orale (8--10 min)}}
+\fancyfoot[L]{\footnotesize\color{gray}INSEA}
+\fancyfoot[C]{\footnotesize\color{darkslate}\textbf{Projet ML : Cancer du Sein}}
+\fancyfoot[R]{\small\bfseries\color{primarygreen}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+\begin{document}
+
+% =========================================================================
+% EN-TÊTE OFFICIEL
+% =========================================================================
+\noindent
+\begin{minipage}[c]{0.22\textwidth}
+	\raggedright
+	\includegraphics[height=1.8cm,keepaspectratio]{logos/HCP-container.png}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.54\textwidth}
+	\centering\singlespacing
+	{\fontsize{9.5}{11}\selectfont \textbf{Institut National de Statistique et d'Économie Appliquée}\par}
+	\vspace{0.1cm}
+	{\fontsize{11}{13}\selectfont \textbf{\color{primarygreen}INSEA -- Année 2026/2027}\par}
+	\vspace{0.1cm}
+	{\fontsize{9}{10.5}\selectfont Encadré par : \textbf{Pr. SAIDI Mohamed Nabil}\par}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.22\textwidth}
+	\raggedleft
+	\includegraphics[height=1.9cm,keepaspectratio]{logos/INSEA_logo.png}
+\end{minipage}
+
+\vspace{0.4cm}
+\begin{center}
+	{\LARGE\bfseries \color{primarygreen}Guide Pratique \& Script Intégral de Soutenance Orale\par}
+	\vspace{0.15cm}
+	{\large\bfseries Détection \& Diagnostic du Cancer du Sein (WDBC)\par}
+	\vspace{0.15cm}
+	{\normalsize\textbf{Durée totale :} 8 à 10 minutes\quad$\vert$\quad\textbf{Support :} 11 Slides (16:9)\quad$\vert$\quad\textbf{Équipe :} 4 Membres}
+\end{center}
+
+\vspace{0.2cm}
+\hrule height 0.8pt
+\vspace{0.3cm}
+
+% =========================================================================
+% 1. SYNTHÈSE DE LA RÉPARTITION DES RÔLES
+% =========================================================================
+\section*{\color{primarygreen}1. Synoptique de Répartition du Temps et des Rôles}
+
+Chaque membre dispose d'un temps de parole de \textbf{2 minutes à 2 minutes 15 secondes}, garantissant une prestation collective fluide, équilibrée et parfaitement synchronisée avec le support de présentation.
+
+\begin{table}[h]
+	\centering
+	\small
+	\begin{tabularx}{\textwidth}{llcX}
+		\toprule
+		\textbf{Membre / Intervenant} & \textbf{Rôle Thématique} & \textbf{Slides} & \textbf{Temps \& Objectif Principal} \\
+		\midrule
+		\textbf{1. Abdellah LAASRIA} \newline \textit{(M2 M2SI)} & Cadrage \& Problématique & 1, 2 \& 3 & \textbf{00:00 -- 02:15} : Accroche clinique, annonce du plan (Sommaire), cytoponction FNA, asymétrie des coûts (FN vs FP) et question centrale du projet. \\
+		\midrule
+		\textbf{2. Zakarya KAIROUCH} \newline \textit{(M2 M2SI)} & Exploration \& Rigueur & 4 \& 5 & \textbf{02:15 -- 04:30} : Analyse exploratoire (distributions KDE, multicolinéarité $r>0.98$) et protocole anti-fuite (\textit{zero data leakage}). \\
+		\midrule
+		\textbf{3. Yassir BOUITA} \newline \textit{(M2 M2SI)} & Modélisation \& Benchmark & 6 \& 7 & \textbf{04:30 -- 06:45} : Stratégie des 6 algorithmes supervisés, optimisation par 5-fold CV et benchmark comparatif complet sur le test set vierge. \\
+		\midrule
+		\textbf{4. Yasser HAIMED} \newline \textit{(3A DS-E)} & Rappel, Seuil \& Conclusion & 8, 9, 10, 11 & \textbf{06:45 -- 09:00} : Décompte des Faux Négatifs, optimisation clinique du seuil ($\tau^* = 0.30 \to 0$ FN), explicabilité L1 et conclusion. \\
+		\midrule
+		\textbf{Toute l'équipe} & Session Q\&A avec le Jury & -- & \textbf{09:00 -- 10:00+} : Réponse collégiale et experte aux questions du jury. \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\vspace{0.2cm}
+
+% =========================================================================
+% 2. DÉROULÉ DÉTAILLÉ & SCRIPT VERBATIM
+% =========================================================================
+\section*{\color{primarygreen}2. Déroulé Détaillé \& Script Mot à Mot (Diapositive par Diapositive)}
+
+% -------------------------------------------------------------------------
+% PARTIE 1 : ABDELLAH LAASRIA
+% -------------------------------------------------------------------------
+\subsection*{\color{primarygreen}\underline{Partie 1 : Abdellah LAASRIA} (Chrono : 00:00 $\to$ 02:15)}
+
+\begin{tcolorbox}[speechbox, title={Slide 1 : Titre et Accueil du Jury (00:00 -- 00:35)}]
+	\textbf{Visuel projeté :} Page de garde sombre, titres officiels, logos INSEA / HCP, encadrant et noms des 4 membres.\\
+	\textbf{Script oral mot à mot :}
+	\begin{quote}
+		« Bonjour Monsieur le Professeur, bonjour à tous. Je m'appelle Abdellah Laasria et, au nom de notre équipe réunissant Yassir Bouita, Zakarya Kairouch, Yasser Haimed et moi-même, nous sommes très honorés de vous présenter aujourd'hui les résultats de notre mini-projet de Machine Learning consacré à un enjeu de santé publique majeur : \textbf{la classification et la détection assistée du cancer du sein à partir de la base cytologique de Wisconsin (WDBC)}.\\
+		Au cours des dix prochaines minutes, nous allons vous démontrer comment une modélisation supervisée rigoureuse, exempte de toute fuite d'information et articulée autour d'un réglage probabiliste de seuil, permet d'atteindre un objectif médical fondamental : \textbf{éliminer totalement le risque de manquer une tumeur maligne}. »
+	\end{quote}
+	\textbf{Pointage visuel :} Pointer le titre et le nom des membres.
+\end{tcolorbox}
+
+\begin{tcolorbox}[speechbox, title={Slide 2 : Plan Détaillé de la Présentation / Sommaire (00:35 -- 01:05)}]
+	\textbf{Visuel projeté :} Grille des 4 modules de la présentation avec indications des intervenants et minutage.\\
+	\textbf{Script oral mot à mot :}
+	\begin{quote}
+		« Notre présentation s'articule autour de quatre grands axes :\\
+		1. Tout d'abord, j'aborderai le \textbf{cadrage clinique} et la \textbf{question centrale} du projet.\\
+		2. Zakarya vous exposera ensuite l'\textbf{analyse exploratoire des données} (EDA) et notre \textbf{protocole expérimental anti-fuite}.\\
+		3. Yassir prendra le relais pour détailler notre \textbf{stratégie de modélisation supervisée} et le \textbf{benchmark comparatif} des classifieurs.\\
+		4. Enfin, Yasser présentera l'\textbf{analyse des matrices de confusion}, l'\textbf{optimisation clinique du seuil décisionnel} pour atteindre zéro cas manqué, avant de conclure. »
+	\end{quote}
+	\textbf{Pointage visuel :} Balayer rapidement les 4 blocs du sommaire.
+\end{tcolorbox}
+
+\begin{tcolorbox}[speechbox, title={Slide 3 : Contexte Médical, FNA \& Question Centrale (01:05 -- 02:15)}]
+	\textbf{Visuel projeté :} Schéma de la ponction FNA, question centrale INSEA et les deux encadrés d'asymétrie des coûts.\\
+	\textbf{Script oral mot à mot :}
+	\begin{quote}
+		« Pour bien comprendre notre démarche, replaçons-nous dans le cadre clinique. Face à une masse mammaire suspecte, le praticien réalise une \textbf{cytoponction à l'aiguille fine} (FNA). Les clichés microscopiques numérisés sont ensuite analysés pour extraire 10 caractéristiques morphologiques des noyaux cellulaires déclinées en moyenne, erreur-type et valeur pire, soit un total de \textbf{30 descripteurs numériques pour 569 patientes}.\\
+		La question centrale posée par le sujet est double : \textit{"Quel modèle classe le mieux les observations, et lequel limite le risque de ne pas identifier une tumeur maligne ?"}\\
+		En oncologie, le coût des erreurs est profondément asymétrique :
+		\begin{itemize}[leftmargin=0.5cm, itemsep=1pt]
+			\item Un \textbf{Faux Positif} engendre de l'anxiété et des biopsies de contrôle, mais ne met pas en jeu le pronostic vital immédiat.
+			\item En revanche, un \textbf{Faux Négatif} est potentiellement mortel : la patiente quitte l'hôpital rassurée à tort alors qu'une tumeur prolifère.
+		\end{itemize}
+		Notre objectif premier a donc été d'optimiser le \textbf{Rappel de la classe Maligne}. Je passe la parole à Zakarya pour vous présenter notre analyse exploratoire et le protocole expérimental. »
+	\end{quote}
+	\textbf{Pointage visuel :} Mettre en évidence le bloc rouge du Faux Négatif et la formule du Rappel.
+\end{tcolorbox}
+
+% -------------------------------------------------------------------------
+% PARTIE 2 : ZAKARYA KAIROUCH
+% -------------------------------------------------------------------------
+\subsection*{\color{primarygreen}\underline{Partie 2 : Zakarya KAIROUCH} (Chrono : 02:15 $\to$ 04:30)}
+
+\begin{tcolorbox}[speechbox, title={Slide 4 : Analyse Exploratoire des Données (EDA) (02:15 -- 03:20)}]
+	\textbf{Visuel projeté :} Distribution des classes (62,7\,\% B / 37,3\,\% M), graphiques de densité KDE et projection ACP 2D.\\
+	\textbf{Script oral mot à mot :}
+	\begin{quote}
+		« Merci Abdellah. L'exploration de la base WDBC révèle trois enseignements statistiques déterminants :\\
+		Premièrement, l'échantillon présente un \textbf{déséquilibre modéré} avec 357 cas bénins contre 212 cas malins. Cela nous a immédiatement imposé d'adopter une stratégie de découpage stratifié afin de préserver ce ratio.\\
+		Deuxièmement, les courbes de densité KDE montrent que les cellules cancéreuses présentent une signature morphologique nette : une \textbf{hypertrophie volumique} très marquée (rayons et aires très supérieurs) et une \textbf{forte concavité membranaire}.\\
+		Troisièmement, la matrice de corrélation met en évidence des redondances physiques presque parfaites : des corrélations de Pearson supérieures à \textbf{0,98} entre rayon, périmètre et aire. Cette forte multicolinéarité rend les modèles linéaires très sensibles et rend indispensable le recours à une pénalisation de type Lasso ou Ridge. »
+	\end{quote}
+	\textbf{Pointage visuel :} Pointer le pic des distributions malignes sur le KDE et la zone rouge vif ($r > 0.98$) de la matrice de corrélation.
+\end{tcolorbox}
+
+\begin{tcolorbox}[speechbox, title={Slide 5 : Protocole Expérimental Strict \& Zéro Fuite (03:20 -- 04:30)}]
+	\textbf{Visuel projeté :} Diagramme de flux du protocole expérimental, séparation 80/20 et focus sur l'étanchéité du StandardScaler.\\
+	\textbf{Script oral mot à mot :}
+	\begin{quote}
+		« Pour garantir des résultats scientifiquement incontestables, nous avons instauré un protocole sans la moindre concession méthodologique :\\
+		1. Nous avons opéré un \textbf{découpage stratifié 80\,\% entraînement (455 cas) / 20\,\% test (114 cas)}, avec une graine aléatoire fixée à 42 pour une reproductibilité absolue.\\
+		2. Point capital : \textbf{l'étanchéité totale du prétraitement}. Les descripteurs ayant des échelles très disparates (l'aire moyenne dépasse 2500 alors que la compacité est inférieure à 0,2), une standardisation était obligatoire. Cependant, pour proscrire tout \textit{Data Leakage}, notre \texttt{StandardScaler} a été calibré (\texttt{fit}) \textbf{exclusivement sur le Train}. Le jeu de test est resté strictement vierge et n'a subi qu'une simple transformation projectionnelle.\\
+		3. Tous les hyperparamètres ont été réglés par \textbf{validation croisée stratifiée à 5 plis} sur le train. Yassir Bouita va maintenant vous détailler notre stratégie de modélisation supervisée et le benchmark comparatif de nos classifieurs. »
+	\end{quote}
+	\textbf{Pointage visuel :} Pointer la flèche étanche entre le Train et le Test vierge sur le diagramme de flux.
+\end{tcolorbox}
+
+% -------------------------------------------------------------------------
+% PARTIE 3 : YASSIR BOUITA
+% -------------------------------------------------------------------------
+\subsection*{\color{primarygreen}\underline{Partie 3 : Yassir BOUITA} (Chrono : 04:30 $\to$ 06:45)}
+
+\begin{tcolorbox}[speechbox, title={Slide 6 : Algorithmes Supervisés \& Recherche d'Hyperparamètres (04:30 -- 05:35)}]
+	\textbf{Visuel projeté :} Cartes des 6 modèles avec leurs hyperparamètres optimaux et le tableau comparatif des scores de CV.\\
+	\textbf{Script oral mot à mot :}
+	\begin{quote}
+		« Merci Zakarya. Nous avons implémenté les cinq architectures supervisées exigées par le cahier des charges, complétées par un modèle de Gradient Boosting en bonus :\\
+		Pour chacun de ces modèles, nous avons mené une optimisation par \texttt{GridSearchCV} guidée par le F1-Score :
+		\begin{itemize}[leftmargin=0.5cm, itemsep=1pt]
+			\item Pour la \textbf{Régression Logistique}, c'est une pénalité \textbf{L1 (Lasso)} avec $C=1.0$ et le solveur \texttt{saga} qui maximise la régularisation face à la multicolinéarité.
+			\item Pour le \textbf{SVM}, le noyau \textbf{RBF} avec $C=5.0$ et $\gamma=\text{scale}$ atteint le meilleur score de validation interne ($F1 = 0.9731$).
+			\item Pour le \textbf{KNN}, le voisinage optimal est de $k=3$ avec la distance de Manhattan.
+			\item Pour la \textbf{Forêt Aléatoire} et le \textbf{Gradient Boosting}, nous avons calibré la profondeur et le nombre d'arbres pour éviter tout sur-apprentissage.
+		\end{itemize}
+		Voyons maintenant comment ces modèles se comportent une fois confrontés à la réalité du jeu de test indépendant. »
+	\end{quote}
+	\textbf{Pointage visuel :} Pointer le score CV de 0.9731 du SVM RBF et la sélection L1 de la Régression Logistique.
+\end{tcolorbox}
+
+\begin{tcolorbox}[speechbox, title={Slide 7 : Benchmark Global sur le Jeu de Test Vierge (05:35 -- 06:45)}]
+	\textbf{Visuel projeté :} Grand tableau comparatif des 6 modèles sur les 114 données de test et le graphique en barres groupées.\\
+	\textbf{Script oral mot à mot :}
+	\begin{quote}
+		« Voici les résultats définitifs obtenus sur les 114 patientes de test (72 bénignes et 42 malignes) :\\
+		Au niveau de la précision globale, la \textbf{Régression Logistique} et le \textbf{SVM} terminent ex æquo en tête avec une \textbf{Accuracy de 97,37\,\%}, suivis de près par KNN et Gradient Boosting à 96,49\,\%, la Forêt Aléatoire à 94,74\,\% et l'Arbre CART à 92,98\,\%.\\
+		Cependant, en observant les courbes ROC, un modèle se détache nettement : la \textbf{Régression Logistique affiche une aire sous la courbe ROC-AUC exceptionnelle de 0,9970}, surpassant l'ensemble de ses concurrents.\\
+		Mais l'Accuracy ne dit pas tout. Dans un hôpital, ce qui compte, c'est le nombre de patientes malades qui ont été manquées. Pour examiner cette réalité clinique, je cède la parole à Yasser Haimed. »
+	\end{quote}
+	\textbf{Pointage visuel :} Pointer la ligne de la Régression Logistique et la courbe bleue au sommet du graphique ROC.
+\end{tcolorbox}
+
+% -------------------------------------------------------------------------
+% PARTIE 4 : YASSER HAIMED
+% -------------------------------------------------------------------------
+\subsection*{\color{primarygreen}\underline{Partie 4 : Yasser HAIMED} (Chrono : 06:45 $\to$ 09:00)}
+
+\begin{tcolorbox}[speechbox, title={Slide 8 : Analyse Fine du Rappel \& Matrices de Confusion (06:45 -- 07:30)}]
+	\textbf{Visuel projeté :} Grille des matrices de confusion avec mise en relief des Faux Négatifs (FN en rouge).\\
+	\textbf{Script oral mot à mot :}
+	\begin{quote}
+		« Merci Yassir. L'inspection des matrices de confusion confirme de manière éclatante l'insuffisance d'une simple lecture globale de l'Accuracy :\\
+		Regardez le nombre de cas malins non détectés :
+		\begin{itemize}[leftmargin=0.5cm, itemsep=1pt]
+			\item L'\textbf{Arbre de Décision CART} commet \textbf{8 Faux Négatifs} sur 42 patientes cancéreuses. C'est un taux d'échec de 19\,\%, inacceptable en médecine !
+			\item Le SVM en commet 3, KNN et Gradient Boosting en commettent 4.
+			\item La \textbf{Régression Logistique est le modèle le plus protecteur}, avec seulement \textbf{2 Faux Négatifs} et un Rappel de 95,24\,\%.
+		\end{itemize}
+		Mais peut-on faire encore mieux et éliminer totalement ces deux derniers cas manqués ? C'est ce que nous démontrons sur la diapositive suivante. »
+	\end{quote}
+	\textbf{Pointage visuel :} Pointer la case "2 FN" de la Régression Logistique comparée à la case "8 FN" de l'Arbre CART.
+\end{tcolorbox}
+
+\begin{tcolorbox}[speechbox, title={Slide 9 : Optimisation Clinique du Seuil vers Zéro Faux Négatif (07:30 -- 08:15)}]
+	\textbf{Visuel projeté :} Courbes Précision/Rappel en fonction du seuil $\tau$, mise en exergue du point optimal $\tau^* = 0.30$.\\
+	\textbf{Script oral mot à mot :}
+	\begin{quote}
+		« En pratique médicale, le clinicien ne doit pas subir le seuil théorique par défaut de 0,50.\\
+		Puisque la Régression Logistique produit des probabilités d'appartenance parfaitement calibrées, nous avons simulé la variation du seuil de décision $\tau$.\\
+		En abaissant le seuil à \textbf{$\tau^* = 0.30$}, nous constatons un résultat spectaculaire :
+		\begin{itemize}[leftmargin=0.5cm, itemsep=1pt]
+			\item Le \textbf{Rappel de la classe Maligne atteint 100,0\,\%} : \textbf{ZÉRO Faux Négatif} ! La totalité des 42 tumeurs malignes est formellement identifiée.
+			\item La \textbf{Spécificité reste remarquable à 95,83\,\%} : seulement 3 patientes saines déclenchent une alerte préventive pour une biopsie de vérification.
+		\end{itemize}
+		Nous avons donc atteint le compromis clinique idéal : une sécurité vitale absolue sans engorger les services de soins. »
+	\end{quote}
+	\textbf{Pointage visuel :} Pointer le point d'inflexion à $\tau = 0.30$ où la courbe de Rappel atteint 1.0 (100\,\%).
+\end{tcolorbox}
+
+\begin{tcolorbox}[speechbox, title={Slide 10 : Réponse Formelle aux Questions Centrales \& Explicabilité L1 (08:15 -- 08:45)}]
+	\textbf{Visuel projeté :} Synthèse des réponses aux deux questions et explicabilité par coefficients L1.\\
+	\textbf{Script oral mot à mot :}
+	\begin{quote}
+		« Nous sommes désormais en mesure d'apporter une réponse nette et scientifiquement démontrée aux deux questions du projet :\\
+		1. \textbf{Quel modèle classe le mieux les observations ?} La \textbf{Régression Logistique} et le \textbf{SVM} partagent la meilleure précision globale (97,37\,\%), mais la Régression Logistique l'emporte sur l'aire ROC-AUC globale (0,9970).\\
+		2. \textbf{Lequel limite le risque de ne pas identifier une tumeur maligne ?} C'est indiscutablement la \textbf{Régression Logistique}, tant au seuil standard (2 FN) qu'au seuil ajusté de 0,30 où elle atteint le Graal clinique : \textbf{zéro faux négatif}.\\
+		De surcroît, la Régression Logistique L1 offre une \textbf{explicabilité totale} aux radiologues en mettant en lumière le rôle prépondérant de la concavité et du rayon pire, contrairement aux modèles boîtes noires. »
+	\end{quote}
+	\textbf{Pointage visuel :} Pointer les deux cartes de réponse.
+\end{tcolorbox}
+
+\begin{tcolorbox}[speechbox, title={Slide 11 : Recommandations, Conclusion Générale \& Session Q\&A (08:45 -- 09:00+)}]
+	\textbf{Visuel projeté :} 3 piliers de synthèse, remerciements et ouverture officielle de la session de Questions / Réponses.\\
+	\textbf{Script oral mot à mot :}
+	\begin{quote}
+		« Pour conclure, nous recommandons le déploiement de cette solution en tant que système d'aide au diagnostic en \textbf{double-lecture radiologique}.\\
+		Nous vous remercions très sincèrement pour votre attention et sommes maintenant à votre entière disposition pour répondre à vos questions. »
+	\end{quote}
+	\textbf{Pointage visuel :} Saluer le jury et inviter les questions.
+\end{tcolorbox}
+
+\newpage
+
+% =========================================================================
+% 3. SIMULATION D'ÉPREUVE : QUESTIONS DU JURY
+% =========================================================================
+\section*{\color{primarygreen}3. Simulation d'Épreuve : Questions du Jury \& Réponses par Membre}
+
+Voici les \textbf{8 questions les plus probables} susceptibles d'être posées par l'enseignant de Machine Learning, avec la réponse technique associée et le membre de l'équipe désigné pour y répondre :
+
+\begin{tcolorbox}[qabox, title={\textbf{Question 1 (Protocole \& Fuite de données) -- Assignée à Zakarya KAIROUCH}}]
+	\textbf{Jury :} \textit{« Pourquoi insistez-vous autant sur le fait que le StandardScaler n'a pas été appliqué sur tout le jeu de données avant le split ? Qu'est-ce que cela aurait changé concrètement ? »}\\
+	\textbf{Réponse de Zakarya :}
+	« Si nous appliquons le scaler sur la totalité des 569 lignes avant le split, la moyenne $\mu$ et l'écart-type $\sigma$ calculés intègrent la distribution du jeu de test. Le modèle apprendrait indirectement des caractéristiques de données qu'il n'est pas censé connaître, ce qui constitue une violation méthodologique appelée \textit{Data Leakage}. Les performances en test seraient artificiellement gonflées de 1 à 2\,\% et le modèle s'effondrerait face à de futures patientes réelles. En fittant le scaler exclusivement sur le Train, nous garantissons l'honnêteté et la robustesse de notre évaluation. »
+\end{tcolorbox}
+
+\begin{tcolorbox}[qabox, title={\textbf{Question 2 (Mathématiques \& Régularisation) -- Assignée à Yassir BOUITA}}]
+	\textbf{Jury :} \textit{« Vos données montrent une corrélation supérieure à 0.98 entre le rayon et le périmètre. Quel est l'impact mathématique sur les modèles linéaires et pourquoi la pénalité L1 est-elle avantageuse ? »}\\
+	\textbf{Réponse de Yassir BOUITA :}
+	« En présence d'une forte multicolinéarité, la matrice de covariance $X^T X$ devient quasi-singulière. Dans une régression logistique sans pénalité, cela entraîne une explosion de la variance des coefficients $\hat{\beta}$, rendant le modèle instable. La régularisation L1 (Lasso) ajoute une pénalité $\|\boldsymbol{\beta}\|_1$ non différentiable en zéro, ce qui a pour propriété géométrique d'annuler purement et simplement certains coefficients redondants. Elle opère ainsi une sélection automatique de variables, supprimant les doublons physiques comme le périmètre au profit des descripteurs les plus discriminants comme la concavité. »
+\end{tcolorbox}
+
+\begin{tcolorbox}[qabox, title={\textbf{Question 3 (Impact Clinique \& Seuil) -- Assignée à Yasser HAIMED}}]
+	\textbf{Jury :} \textit{« En abaissant votre seuil à 0.30 pour avoir 0 Faux Négatif, vous augmentez forcément les Faux Positifs. N'est-ce pas dangereux ou coûteux pour l'hôpital ? »}\\
+	\textbf{Réponse de Yasser HAIMED :}
+	« C'est un arbitrage fondamental en médecine, mais ici l'analyse chiffrée valide pleinement ce choix : au seuil de 0.30, nous passons de 1 à seulement 3 faux positifs sur 72 patientes saines, ce qui maintient une spécificité excellente de \textbf{95,83\,\%}. Les conséquences d'un faux positif se résument à prescrire une échographie ou une mammographie de contrôle confirmatoire. À l'inverse, un faux négatif équivaut à laisser une tumeur métastaser avec un risque mortel. Entre 2 patientes saines qui subissent un contrôle inutile et 2 patientes malades laissées sans traitement, le consensus médical impose d'éliminer les faux négatifs. »
+\end{tcolorbox}
+
+\begin{tcolorbox}[qabox, title={\textbf{Question 4 (Algorithmes d'Arbre) -- Assignée à Yassir BOUITA}}]
+	\textbf{Jury :} \textit{« Pourquoi l'Arbre de Décision CART obtient-il un score aussi faible avec 8 faux négatifs, alors que les arbres sont réputés robustes ? »}\\
+	\textbf{Réponse de Yassir BOUITA :}
+	« Un arbre de décision CART opère des séparations strictement orthogonales aux axes dans l'espace des descripteurs ($x_j \le s$). Or, en cytologie, les interactions morphologiques sont multidimensionnelles et combinatoires (par exemple le rapport périmètre/aire ou la texture combinée à la concavité). Pour approcher une frontière oblique avec des hyperplans orthogonaux, l'arbre doit créer une infinité de paliers, ce qui provoque du surapprentissage ou, s'il est tronqué pour limiter la complexité ($max\_depth=4$), laisse de larges zones de mauvaise classification. C'est pourquoi un hyperplan linéaire continu ou une marge SVM RBF est infiniment plus efficace ici. »
+\end{tcolorbox}
+
+\begin{tcolorbox}[qabox, title={\textbf{Question 5 (Métriques \& Déséquilibre) -- Assignée à Abdellah LAASRIA}}]
+	\textbf{Jury :} \textit{« L'Accuracy est-elle une bonne métrique pour ce projet ? Si un modèle prédisait systématiquement 'Bénin', quelle serait son Accuracy ? »}\\
+	\textbf{Réponse d'Abdellah LAASRIA :}
+	« L'Accuracy est une métrique trompeuse dès lors qu'il existe un déséquilibre de classe. Sur notre échantillon de test qui compte 72 bénins et 42 malins sur 114 cas, un classifieur naïf qui prédirait aveuglément que tout le monde est sain obtiendrait une Accuracy de $72 / 114 = 63,16\,\%$ ! Pourtant, ce modèle serait un désastre absolu en laissant mourir 100\,\% des malades. C'est précisément pour cela que nous avons placé au cœur de notre étude le \textbf{Rappel de la classe Maligne} et le \textbf{ROC-AUC}, qui mesurent la capacité intrinsèque du modèle à discriminer sans être influencé par la distribution a priori des classes. »
+\end{tcolorbox}
+
+\begin{tcolorbox}[qabox, title={\textbf{Question 6 (Éthique \& Explicabilité) -- Assignée à Abdellah LAASRIA}}]
+	\textbf{Jury :} \textit{« Pourquoi préférer la Régression Logistique à un Réseau de Neurones Profond ou à un XGBoost sophistiqué ? »}\\
+	\textbf{Réponse d'Abdellah LAASRIA :}
+	« En médecine, le principe éthique d'intelligibilité et le Règlement Européen sur l'IA (AI Act) imposent une explicabilité des décisions critiques. Un modèle boîte noire complexe qui se trompe ne permet pas au médecin de comprendre pourquoi l'erreur a eu lieu. Avec la Régression Logistique, chaque prédiction s'appuie sur une formule mathématique claire où les coefficients $\beta_j$ sont directement interprétables. Le médecin peut vérifier que l'alerte a été déclenchée par un excès anormal de concavité ou de rugosité nucléaire, renforçant la confiance clinique et la détection d'éventuels artéfacts sur les lames. »
+\end{tcolorbox}
+
+\begin{tcolorbox}[qabox, title={\textbf{Question 7 (Pré-traitement) -- Assignée à Zakarya KAIROUCH}}]
+	\textbf{Jury :} \textit{« Pourquoi avoir choisi StandardScaler plutôt qu'un MinMaxScaler [0, 1] ? »}\\
+	\textbf{Réponse de Zakarya :}
+	« Le MinMaxScaler compresse toutes les données entre 0 et 1 en fonction de la valeur minimale et de la valeur maximale observée. Or, dans les données cytologiques, les valeurs extrêmes (\texttt{\_worst}) contiennent des outliers naturels significatifs de tumeurs très volumineuses. Le MinMaxScaler écraserait la variance de 95\,\% des données dans une bande étroite pour accommoder deux valeurs extrêmes. À l'opposé, le \texttt{StandardScaler} centre par la moyenne et réduit par l'écart-type : il préserve la distribution gaussienne des variables et est beaucoup plus robuste face aux valeurs extrêmes, tout en permettant aux solveurs de gradient (L-BFGS, SAGA) de converger de façon optimale. »
+\end{tcolorbox}
+
+\begin{tcolorbox}[qabox, title={\textbf{Question 8 (Généralisation \& Déploiement) -- Assignée à Yasser HAIMED}}]
+	\textbf{Jury :} \textit{« Quelles sont les limites de cette étude pour un déploiement dans les hôpitaux marocains ? »}\\
+	\textbf{Réponse de Yasser HAIMED :}
+	« La base WDBC est une base historique monocentrique recueillie à l'Université de Wisconsin dans les années 1990. Même si elle est de très haute qualité, la déployer directement au Maroc poserait un problème de généralisation : les scanners microscopiques, la coloration des lames et les protocoles de numérisation peuvent différer et introduire un biais de domaine (\textit{Domain Shift}). Pour une intégration en pratique clinique réelle, il faudrait valider le modèle sur une cohorte multicentrique locale, mettre en place un monitoring continu de la dérive des données (\textit{Data Drift}) et maintenir impérativement l'outil sous le contrôle d'un médecin cytopathologiste en double lecture. »
+\end{tcolorbox}
+
+\vspace{0.4cm}
+% =========================================================================
+% 4. CONSEILS PRATIQUES POUR LE JOUR J
+% =========================================================================
+\section*{\color{primarygreen}4. Règles d'Or pour la Réussite de la Soutenance}
+
+\begin{itemize}[leftmargin=0.8cm, itemsep=3pt]
+	\item \textbf{Gestion du chronomètre :} Répétez avec un chronomètre visible. Chacun doit respecter strictement son créneau de 2 minutes. Si un membre prend du retard, le suivant doit élaguer 15 secondes pour ne jamais dépasser la barre des 10 minutes.
+	\item \textbf{Passage de témoin fluide :} Utilisez systématiquement la phrase de transition prévue (« Je cède la parole à... ») afin d'éviter tout blanc ou hésitation.
+	\item \textbf{Langage corporel :} Regardez le jury dans les yeux, ne lisez jamais les diapositives textuellement. Votre support sert d'illustration, vous apportez l'expertise et l'analyse.
+	\item \textbf{Posture solidaire lors du Q\&A :} Quand le jury pose une question, le membre désigné prend la parole calmement. Un autre membre peut compléter brièvement si nécessaire, en montrant l'harmonie et la cohésion de l'équipe.
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,754 @@
+\documentclass[a4paper,12pt]{report}
+
+% ===== Packages =====
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[top=0.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, shapes.geometric, fit, backgrounds, calc, shadows, trees}
+\usepackage[pdfborder={0 0 0}, colorlinks=true, linkcolor=black, urlcolor=javadocblue, citecolor=primarygreen]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{cite}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{wallpaper}
+\usepackage{nomencl}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{eso-pic}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{etoolbox}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+
+% ===== Configuration =====
+\setlength{\TPHorizModule}{1cm}
+\setlength{\TPVertModule}{1cm}
+
+% Couleurs personnalisées
+\definecolor{javapurple}{rgb}{0.5,0,0.35}
+\definecolor{javagreen}{rgb}{0.25,0.5,0.35}
+\definecolor{javadocblue}{rgb}{0.25,0.35,0.75}
+\definecolor{primarygreen}{rgb}{0.0, 0.38, 0.235}
+\definecolor{accentorange}{rgb}{0.85, 0.45, 0.1}
+\definecolor{accentblue}{rgb}{0.12, 0.44, 0.73}
+\definecolor{slategray}{rgb}{0.25, 0.30, 0.35}
+\definecolor{critred}{rgb}{0.82, 0.12, 0.15}
+\definecolor{safegreen}{rgb}{0.12, 0.55, 0.25}
+
+% Mise en page
+\geometry{
+	a4paper,
+	top=1.75cm,
+	bottom=1.2cm,
+	left=1.75cm,
+	right=1.75cm,
+	headheight=24pt,
+	headsep=12pt,
+	bmargin=25mm
+}
+
+% Interligne
+\onehalfspacing
+
+% Configuration des légendes
+\captionsetup{
+	font=it,
+	labelfont={bf,it}
+}
+\captionsetup[table]{
+	labelfont={bf,normalfont}
+}
+
+% Formatage des chapitres - TITRE EN VERT
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries\color{primarygreen}}
+{Chapitre \thechapter :}
+{0pt}
+{\Huge}
+\titlespacing*{\chapter}{0pt}{10pt}{20pt}
+
+% Styles de page
+\fancypagestyle{plain}{%
+	\fancyhf{}
+	\fancyhead[L]{\raisebox{-1.5pt}{\includegraphics[height=20pt,keepaspectratio]{logos/head.png}}}
+	\fancyhead[R]{\nouppercase{\leftmark}}
+	\fancyfoot[R]{\thepage}
+	\fancyfoot[C]{Rapport - \textbf{\titre}}
+	\fancyfoot[L]{\UE}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0.4pt}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-1.5pt}{\includegraphics[height=20pt,keepaspectratio]{logos/head.png}}}
+\fancyhead[R]{\nouppercase{\leftmark}}
+\fancyfoot[R]{\thepage}
+\fancyfoot[C]{Rapport - \textbf{\titre}}
+\fancyfoot[L]{\UE}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% ===== Commandes personnalisées =====
+\newcommand{\UE}[1]{\renewcommand{\UE}{#1}}
+\newcommand{\sujet}[1]{\renewcommand{\sujet}{#1}}
+\newcommand{\titre}[1]{\renewcommand{\titre}{#1}}
+\newcommand{\enseignant}[1]{\renewcommand{\enseignant}{#1}}
+\newcommand{\eleves}[1]{\renewcommand{\eleves}{#1}}
+		
+% Page de garde
+\newcommand{\fairepagedegarde}{
+	\fancypagestyle{coverpage}{
+		\fancyhf{}
+		\fancyfoot[C]{\large Année universitaire 2026/2027}
+		\renewcommand{\headrulewidth}{0pt}
+		\renewcommand{\footrulewidth}{0pt}
+	}
+	\begin{titlepage}
+		\thispagestyle{coverpage}
+		\centering
+		
+		\noindent
+		\begin{minipage}[c]{0.26\textwidth}
+			\raggedright
+			\includegraphics[height=2.5cm,keepaspectratio]{logos/HCP-container.png}
+		\end{minipage}%
+		\hfill
+		\begin{minipage}[c]{0.46\textwidth}
+			\centering\singlespacing
+			{\fontsize{10.5}{12.5}\selectfont \textbf{Royaume du Maroc}\par}
+			\vspace{0.12cm}
+			{\fontsize{10}{12}\selectfont \textbf{Haut-Commissariat au Plan}\par}
+			\vspace{0.12cm}
+			{\fontsize{9.5}{11.5}\selectfont \textbf{Institut National de Statistique\\et d'Économie Appliquée}\par}
+			\vspace{0.15cm}
+			{\fontsize{14}{16}\selectfont \textbf{\color{primarygreen}INSEA}\par}
+		\end{minipage}%
+		\hfill
+		\begin{minipage}[c]{0.26\textwidth}
+			\raggedleft
+			\includegraphics[height=2.6cm,keepaspectratio]{logos/INSEA_logo.png}
+		\end{minipage}
+		
+		\vspace{1.0cm}
+		{\scshape\Large \textbf{Master Systèmes d'Information et Systèmes Intelligents (M2SI)}\par}
+		\vspace{0.4cm}
+		{\large \textbf{\today}} \\[0.5cm]
+		
+		\rule{\linewidth}{0.4 mm} \\[0.3cm]
+		{\huge\bfseries Planification d'un Projet Logiciel \par}
+		\vspace{0.3cm}
+		{\Large\bfseries WBS, OBS, Matrice RACI, Réseau PERT et Diagramme de Gantt \par}
+		\vspace{0.25cm}
+		{\normalsize\bfseries Projet : Conception et Déploiement d'une Plateforme Web de Gestion des Stages \par}
+		\vspace{0.15cm}
+		\rule{\linewidth}{0.4 mm} \\[1.6cm]
+		\vspace{0.8cm}
+		
+		\noindent
+		\begin{minipage}[t]{0.45\textwidth}
+			\raggedright \large
+			\emph{\textbf{Réalisé par :}}\\[0.25cm]
+			\eleves
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.45\textwidth}
+			\raggedleft \large
+			\emph{\textbf{Encadré par :}}\\[0.25cm] 
+			\enseignant
+		\end{minipage}
+		\\[3.5cm]
+		
+	\end{titlepage}
+}
+
+% ===== Initialisation du document =====
+\titre{Planification de Projet Logiciel}
+\UE{Génie Logiciel}
+\sujet{WBS, OBS, Matrice RACI, Réseau PERT et Diagramme de Gantt\\ \vspace{0.2cm}\textbf{Projet : Plateforme Web de Gestion des Stages}}
+\enseignant{Mme RADGUI Maryam}
+\eleves{BOUITA \textsc{Yassir}\\ KAIROUCH \textsc{Zakarya}\\ LAASSRIA \textsc{Abdellah}\\}
+
+% Fond de page
+\ThisLRCornerWallPaper{1}{logos/insea_bg5.png}
+
+\begin{document}
+	
+	\fairepagedegarde
+	
+	\clearpage
+	\pagenumbering{roman}
+	\setcounter{tocdepth}{1}
+	\renewcommand{\contentsname}{Table des Matières}
+	\tableofcontents
+	
+	\clearpage
+	\begingroup
+	\let\clearpage\relax
+	\let\cleardoublepage\relax
+	\addcontentsline{toc}{chapter}{\listfigurename}
+	\listoffigures
+	\vspace{1.5cm}
+	\addcontentsline{toc}{chapter}{\listtablename}
+	\listoftables
+	\endgroup
+	
+	\clearpage
+	\pagenumbering{arabic}
+	
+	% =========================================================================
+	% CHAPITRE 1 : INTRODUCTION ET CADRAGE DU PROJET
+	% =========================================================================
+	\chapter{Introduction et Cadrage du Projet}
+	
+	\section{Contexte Opérationnel et Objectifs}
+	Dans le cadre de la modernisation de ses processus académiques et administratifs, une entreprise mandate la conception et le déploiement d'une application web intégrée de gestion des stages. Ce système s'adresse à trois populations d'utilisateurs aux exigences et aux cas d'usage distincts :
+	\begin{itemize}[leftmargin=1.2cm, noitemsep]
+		\item \textbf{Les étudiants} : consultation des conventions de stage, soumission des fiches de stage, transmission des rapports d'étape et suivi de la validation pédagogique.
+		\item \textbf{Les enseignants} : encadrement académique, consultation des missions assignées, évaluation intermédiaire et attribution des notes de soutenance.
+		\item \textbf{Le service de scolarité} : vérification administrative de la conformité légale, signature des conventions et édition des procès-verbaux de fin d'études.
+	\end{itemize}
+	
+	Le chef de projet (CP) a pour mandat d'organiser méthodiquement les travaux, d'assigner les responsabilités et de structurer l'ordonnancement temporel afin de garantir une mise en production effective dans un délai contractuel impératif de \textbf{30 jours ouvrés}.
+	
+	\section{Données et Hypothèses de Planification}
+	L'équipe de réalisation et de gouvernance mobilise cinq profils spécialisés :
+	\begin{itemize}[leftmargin=1.2cm, noitemsep]
+		\item \textbf{CP} : Chef de Projet (pilotage, arbitrage, coordination et gouvernance).
+		\item \textbf{AN} : Analyste fonctionnel (spécifications des exigences, règles de gestion métier).
+		\item \textbf{DEV} : Développeur (conception technique, bases de données, frontend et backend).
+		\item \textbf{TEST} : Testeur (assurance qualité, stratégie de recette, validation des correctifs).
+		\item \textbf{CL} : Représentant du Client (maîtrise d'ouvrage, arbitrage métier, recette finale).
+	\end{itemize}
+	
+	Le projet s'articule autour de huit activités maîtresses ordonnancées conformément au tableau~\ref{tab:donnees_projet}.
+	
+	\begin{table}[H]
+		\centering
+		\small
+		\caption{Description des activités, durées et dépendances logiques}
+		\label{tab:donnees_projet}
+		\begin{tabularx}{\textwidth}{c >{\raggedright\arraybackslash}X c c}
+			\toprule
+			\textbf{Code} & \textbf{Activité} & \textbf{Durée (jours)} & \textbf{Prédécesseurs} \\
+			\midrule
+			\textbf{A} & Analyse des besoins & 4 & Aucun \\
+			\textbf{B} & Conception de l'application & 3 & A \\
+			\textbf{C} & Conception de la base de données & 2 & A \\
+			\textbf{D} & Développement du backend & 6 & B, C \\
+			\textbf{E} & Développement du frontend & 5 & B \\
+			\textbf{F} & Tests et corrections & 4 & D, E \\
+			\textbf{G} & Validation par le client & 2 & F \\
+			\textbf{H} & Déploiement et livraison & 1 & G \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+	
+	Les hypothèses fondamentales retenues pour l'ordonnancement sont les suivantes :
+	\begin{enumerate}[leftmargin=1.2cm, noitemsep]
+		\item \textbf{Déclenchement au plus tôt} : Toute activité est engagée immédiatement dès que la totalité de ses prédécesseurs directs est achevée.
+		\item \textbf{Disponibilité continue} : Les ressources humaines et matérielles sont pleinement mobilisées et disponibles sur l'ensemble de l'horizon temporel.
+		\item \textbf{Continuité temporelle} : Le calendrier de travail est exprimé en jours ouvrés continus sans interruption par des jours fériés ou des aléas météorologiques.
+	\end{enumerate}
+
+	% =========================================================================
+	% CHAPITRE 2 : WBS - ORGANISATION DU TRAVAIL
+	% =========================================================================
+	\chapter{Structure de Découpage du Projet (WBS)}
+	
+	\section{Démarche et Principes de Décomposition}
+	La décomposition WBS (\textit{Work Breakdown Structure} ou Organigramme des Tâches) constitue la pierre angulaire de la planification opérationnelle. Conformément aux préconisations du \textit{PMBOK Guide}, elle repose sur une approche orientée livrables (\textit{deliverable-oriented}), assurant la traçabilité complète du périmètre selon la règle des 100\,\% : la totalité des éléments de niveau inférieur doit restituer exactement le contenu du niveau supérieur.
+	
+	Notre WBS respecte une hiérarchie stricte sur quatre niveaux opérationnels :
+	\begin{itemize}[leftmargin=1.2cm, noitemsep]
+		\item \textbf{Niveau 1} : Projet global (Plateforme Web de Gestion des Stages).
+		\item \textbf{Niveau 2} : Grandes phases du cycle de vie du projet logiciel (Cadrage, Conception, Développement, Assurance Qualité, Déploiement \& Clôture).
+		\item \textbf{Niveau 3} : Lots de travaux (\textit{Work Packages}) regroupant des compétences et livrables homogènes.
+		\item \textbf{Niveau 4} : Activités élémentaires d'exécution (\textbf{A} à \textbf{H}) assorties de jalons et de livrables vérifiables.
+	\end{itemize}
+	
+	\section{Représentation Arborescente de la WBS}
+	La figure~\ref{fig:wbs_tree} matérialise l'arborescence structurelle du projet, illustrant la filiation logique entre les phases directrices et les activités concrètes de l'équipe.
+	
+	\begin{figure}[H]
+		\centering
+		\resizebox{\textwidth}{!}{%
+		\begin{tikzpicture}[
+			x=3.7cm, y=-1.45cm,
+			every node/.style={font=\scriptsize\bfseries, align=center},
+			root/.style={draw=primarygreen!80, fill=primarygreen!20, thick, rounded corners=1.5mm, text width=6.5cm, minimum height=0.85cm, drop shadow},
+			phase/.style={draw=primarygreen!80, fill=primarygreen!12, thick, rounded corners=1.5mm, text width=3.2cm, minimum height=0.8cm, drop shadow},
+			task/.style={draw=slategray!80, fill=white, thick, rounded corners=1.5mm, text width=2.9cm, minimum height=0.75cm, drop shadow},
+			line/.style={draw=primarygreen!80, thick}
+		]
+		
+		% Niveau 1 : Racine
+		\node[root] (R) at (2, 0) {Projet : Plateforme Web de Gestion des Stages\\(Niveau 1 : Projet Global)};
+		
+		% Niveau 2 : Les 5 Phases (Colonnes 0 à 4)
+		\node[phase] (P1) at (0, 1.2) {1.0 Cadrage \& Besoins};
+		\node[phase] (P2) at (1, 1.2) {2.0 Conception Logicielle};
+		\node[phase] (P3) at (2, 1.2) {3.0 Réalisation \& Codage};
+		\node[phase] (P4) at (3, 1.2) {4.0 Qualification \& Tests};
+		\node[phase] (P5) at (4, 1.2) {5.0 Déploiement \& Clôture};
+		
+		% Niveau 3 : Tâches réparties par colonne (aucune collision)
+		% Colonne 1 : Activité A
+		\node[task] (A) at (0, 2.5) {\textbf{Activité A} (4j)\\Analyse des besoins};
+		
+		% Colonne 2 : Activités B et C
+		\node[task] (B) at (1, 2.5) {\textbf{Activité B} (3j)\\Conception applicative};
+		\node[task] (C) at (1, 3.8) {\textbf{Activité C} (2j)\\Conception base de données};
+		
+		% Colonne 3 : Activités D et E
+		\node[task] (D) at (2, 2.5) {\textbf{Activité D} (6j)\\Développement backend};
+		\node[task] (E) at (2, 3.8) {\textbf{Activité E} (5j)\\Développement frontend};
+		
+		% Colonne 4 : Activités F et G
+		\node[task] (F) at (3, 2.5) {\textbf{Activité F} (4j)\\Tests et corrections};
+		\node[task] (G) at (3, 3.8) {\textbf{Activité G} (2j)\\Validation par le client};
+		
+		% Colonne 5 : Activité H
+		\node[task] (H) at (4, 2.5) {\textbf{Activité H} (1j)\\Déploiement et livraison};
+		
+		% Lignes de connexion arborescente (bus horizontal)
+		\coordinate (bus_phase) at (2, 0.7);
+		
+		\draw[line] (R.south) -- (bus_phase);
+		\draw[line] (0, 0.7) -- (4, 0.7);
+		
+		\draw[line] (0, 0.7) -- (P1.north);
+		\draw[line] (1, 0.7) -- (P2.north);
+		\draw[line] (2, 0.7) -- (P3.north);
+		\draw[line] (3, 0.7) -- (P4.north);
+		\draw[line] (4, 0.7) -- (P5.north);
+		
+		% Connexions verticales
+		\draw[line] (P1.south) -- (A.north);
+		
+		% Colonne 2 : vers B et C
+		\draw[line] (P2.south) -- (B.north);
+		\draw[line] (B.south) -- (C.north);
+		
+		% Colonne 3 : vers D et E
+		\draw[line] (P3.south) -- (D.north);
+		\draw[line] (D.south) -- (E.north);
+		
+		% Colonne 4 : vers F et G
+		\draw[line] (P4.south) -- (F.north);
+		\draw[line] (F.south) -- (G.north);
+		
+		% Colonne 5 : vers H
+		\draw[line] (P5.south) -- (H.north);
+		
+		\end{tikzpicture}%
+		}
+		\caption{Structure de découpage du projet (WBS à 3 niveaux et activités A à H)}
+		\label{fig:wbs_tree}
+	\end{figure}
+	
+	\section{Dictionnaire de la WBS et Livrables Associés}
+	Le tableau~\ref{tab:wbs_dict} définit formellement chaque lot de travail, spécifiant les livrables d'entrée, les livrables produits ainsi que les critères stricts d'acceptation.
+	
+	\begin{table}[H]
+		\centering
+		\footnotesize
+		\renewcommand{\arraystretch}{1.15}
+		\caption{Dictionnaire des lots de travaux de la WBS}
+		\label{tab:wbs_dict}
+		\begin{tabularx}{\textwidth}{c c >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X}
+			\toprule
+			\textbf{Code WBS} & \textbf{Activité} & \textbf{Livrable(s) Produit(s)} & \textbf{Critère d'Acceptation} \\
+			\midrule
+			1.1 & \textbf{A} & Cahier des charges fonctionnel, cas d'utilisation & Validation formelle du périmètre par le client \\
+			2.1 & \textbf{B} & Architecture logicielle, maquettes UI, diagrammes UML & Cohérence de l'architecture et validation UI \\
+			2.2 & \textbf{C} & Schéma relationnel (MCD/MLD), scripts SQL & Normalisation 3NF et conformité intégrité \\
+			3.1 & \textbf{D} & API RESTful, services métier, tests unitaires & Exécution réussie des tests unitaires backend \\
+			3.2 & \textbf{E} & Interfaces web réactives, formulaires, intégration API & Conformité ergonomique et intégration API \\
+			4.1 & \textbf{F} & Rapports de tests d'intégration, correctifs de bugs & Taux d'anomalies critiques résolues à 100\,\% \\
+			4.2 & \textbf{G} & Procès-verbal de recette utilisateur (UAT) & Signature du PV de validation sans réserve bloquante \\
+			5.1 & \textbf{H} & Application déployée, guide d'exploitation, code source & Mise en ligne opérationnelle et livrables archivés \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+	% =========================================================================
+	% CHAPITRE 3 : STRUCTURE ORGANISATIONNELLE (OBS) ET MATRICE RACI
+	% =========================================================================
+	\chapter{Structure Organisationnelle (OBS) et Matrice RACI}
+	\enlargethispage{2\baselineskip}
+	
+	\section{Modélisation de l'OBS (Organizational Breakdown Structure)}
+	L'OBS cartographie l'architecture hiérarchique et fonctionnelle des compétences mobilisées sur le projet, établissant les délégations d'autorité et les circuits d'échange entre maîtrise d'ouvrage (MOA) et maîtrise d'œuvre (MOE).
+	
+	\subsection{Positionnement Stratégique du Chef de Projet (CP)}
+	Le chef de projet (CP) assure une triple mission de pilotage :
+	\begin{itemize}[leftmargin=1.0cm, noitemsep, topsep=0pt]
+		\item \textbf{Point focal unique (\textit{SPOC})} : Centralisation des flux entre client (CL) et équipe MOE.
+		\item \textbf{Gouvernance et arbitrage} : Pilotage du planning (Gantt) et allocation des ressources.
+		\item \textbf{Qualité et reporting} : Contrôle de conformité et reporting hebdomadaire auprès du Copil.
+	\end{itemize}
+	
+	\subsection{Équipes et Fonctions Impliquées}
+	L'équipe de réalisation MOE est structurée en trois pôles complémentaires :
+	\begin{itemize}[leftmargin=1.0cm, noitemsep, topsep=0pt]
+		\item \textbf{Pôle Métier (AN)} : Capture des besoins et formalisation des règles de gestion des stages.
+		\item \textbf{Pôle Réalisation (DEV)} : Implémentation du schéma SQL, de l'API backend et du frontend.
+		\item \textbf{Pôle Qualité (TEST)} : Plans de test, qualification logicielle et suivi des anomalies.
+	\end{itemize}
+	
+	\subsection{Place du Représentant du Client (CL)}
+	Le représentant du client (CL) incarne la maîtrise d'ouvrage (MOA) :
+	\begin{itemize}[leftmargin=1.0cm, noitemsep, topsep=0pt]
+		\item Préserve son autonomie en déléguant l'exécution technique quotidienne à la MOE.
+		\item Intervient aux jalons clés : validation du besoin (Activité A) et recette finale (Activité G).
+		\item Co-décide au sein du Comité de Pilotage (\textit{Copil}) avec pouvoir d'arbitrage contractuel.
+	\end{itemize}
+	
+	\clearpage
+	\begin{figure}[H]
+		\centering
+		\resizebox{0.88\textwidth}{!}{%
+		\begin{tikzpicture}[
+			level 1/.style={sibling distance=7.0cm, level distance=1.6cm},
+			level 2/.style={sibling distance=3.2cm, level distance=1.7cm},
+			every node/.style={draw=primarygreen!80, fill=white, thick, rounded corners=1.5mm, font=\scriptsize\bfseries, align=center, drop shadow},
+			root/.style={fill=primarygreen!20, text width=4.5cm, minimum height=0.9cm},
+			manager/.style={fill=accentorange!15, text width=3.8cm, minimum height=0.85cm},
+			pole/.style={fill=primarygreen!10, text width=2.8cm, minimum height=0.8cm},
+			role/.style={fill=white, text width=2.5cm, minimum height=0.75cm, draw=slategray}
+		]
+		
+		\node[root] {Comité de Pilotage (Copil)\\(Direction \& Arbitrage)}
+			child { node[manager] (cl_node) {Maîtrise d'Ouvrage (MOA)\\\textbf{Représentant Client (CL)}} }
+			child { node[manager] (cp_node) {Direction de Projet (MOE)\\\textbf{Chef de Projet (CP)}}
+				child { node[role] {Pôle Métier\\\textbf{Analyste (AN)}} }
+				child { node[role] {Pôle Réalisation\\\textbf{Développeur (DEV)}} }
+				child { node[role] {Pôle Qualité\\\textbf{Testeur (TEST)}} }
+			};
+			
+		\draw[dashed, Latex-Latex, thick, color=accentorange] (cl_node) -- node[above, font=\tiny\bfseries, color=accentorange] {Concertation \& Recette} (cp_node);
+		\end{tikzpicture}%
+		}
+		\caption{Structure organisationnelle du projet (OBS) et relations hiérarchiques}
+		\label{fig:obs_diagram}
+	\end{figure}
+	
+	\section{Élaboration de la Matrice RACI}
+	Le croisement de la WBS et de l'OBS donne lieu à la matrice d'attribution des responsabilités RACI (\textit{Responsible, Accountable, Consulted, Informed}). Les règles formelles de gouvernance appliquées sont les suivantes :
+	\begin{itemize}[leftmargin=1.2cm, noitemsep]
+		\item \textbf{Unicité de l'Accountable (A)} : Chaque activité dispose d'\textbf{un et un seul} approbateur final, évitant toute dilution du pouvoir décisionnaire et tout blocage managérial.
+		\item \textbf{Garantie d'exécution (R)} : Chaque activité possède au moins un exécutant opérationnel (\textbf{R}) qualifié et disponible.
+		\item \textbf{Pertinence des rôles C et I} : Les parties prenantes consultées (\textbf{C}) apportent une expertise métier ou technique essentielle, tandis que les acteurs informés (\textbf{I}) reçoivent les livrables d'étape sans impacter les délais.
+	\end{itemize}
+	
+	\begin{table}[H]
+		\centering
+		\small
+		\renewcommand{\arraystretch}{1.12}
+		\caption{Matrice RACI par activité et acteur organisationnel}
+		\label{tab:matrice_raci_planif}
+		\begin{tabularx}{\textwidth}{c >{\raggedright\arraybackslash}X c c c c c}
+			\toprule
+			\textbf{Code} & \textbf{Activité} & \textbf{CP} & \textbf{AN} & \textbf{DEV} & \textbf{TEST} & \textbf{CL} \\
+			\midrule
+			\textbf{A} & Analyse des besoins & A & R & C & I & C \\
+			\textbf{B} & Conception de l'application & A & C & R & C & I \\
+			\textbf{C} & Conception de la base de données & A & C & R & I & I \\
+			\textbf{D} & Développement du backend & A & I & R & C & I \\
+			\textbf{E} & Développement du frontend & A & C & R & C & I \\
+			\textbf{F} & Tests et corrections & A & C & R & R & I \\
+			\textbf{G} & Validation par le client & C & C & I & R & A / R \\
+			\textbf{H} & Déploiement et livraison & A & I & R & I & I \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+	
+	\clearpage
+	\section{Justification Détaillée des Choix sur les Activités Clés}
+	
+	\subsection{Activité G : Validation par le Client}
+	L'activité de validation constitue l'étape d'homologation contractuelle entre le client et l'équipe MOE :
+	\begin{itemize}[leftmargin=1.0cm, noitemsep, topsep=1pt]
+		\item \textbf{Accountable unique (CL)} : La recette relève d'un acte juridique d'homologation. Seul le client dispose de la légitimité pour valider la conformité aux attentes métier et prononcer l'acceptation sans réserve.
+		\item \textbf{Responsible conjoint (CL et TEST)} : Le testeur (\textbf{TEST}) prépare les jeux d'essais et consigne les anomalies constatées. Le représentant client (\textbf{CL}) exécute les scénarios réels (conventions, notes, scolarité).
+		\item \textbf{Consulted (CP)} : Le CP assiste à la recette pour négocier la criticité des réserves éventuelles et formaliser le PV d'accord.
+		\item \textbf{Informed (DEV)} : Le développeur est alerté des résultats pour mobiliser une capacité de correction d'urgence si nécessaire.
+	\end{itemize}
+	
+	\subsection{Activité H : Déploiement et Livraison}
+	Le déploiement engage la mise en production effective et la clôture contractuelle :
+	\begin{itemize}[leftmargin=1.0cm, noitemsep, topsep=1pt]
+		\item \textbf{Accountable unique (CP)} : Le CP engage la responsabilité légale de la MOE quant au respect impératif du délai contractuel de 30 jours et à la complétude des livrables techniques.
+		\item \textbf{Responsible opérationnel (DEV)} : Le développeur exécute les opérations techniques : migration SQL, configuration des variables d'environnement, packaging des conteneurs et tests de fumée.
+		\item \textbf{Consulted (TEST)} : Le testeur effectue les ultimes vérifications de bon fonctionnement des services en ligne.
+		\item \textbf{Informed (CL)} : Le client reçoit officiellement les URL d'exploitation, les comptes administrateur et la documentation.
+	\end{itemize}
+	
+	\subsection{Gouvernance Organisationnelle et Alignement des Interfaces}
+	L'alignement OBS-RACI adopté élimine les points de friction managériaux :
+	\begin{itemize}[leftmargin=1.0cm, noitemsep, topsep=1pt]
+		\item \textbf{Continuité de la responsabilité MOE} : Le CP assure le rôle d'Accountable sur toutes les phases internes (A à F et H), assurant une vision d'ensemble cohérente et un contrôle strict du chemin critique.
+		\item \textbf{Partenariat MOA/MOE sanctuarisé} : En confiant à CL le rôle d'Accountable sur l'activité G, la maîtrise d'œuvre garantit une transparence totale et une responsabilisation directe du bénéficiaire dans l'adoption du système.
+	\end{itemize}
+
+	% =========================================================================
+	% CHAPITRE 4 : ORDONNANCEMENT PERT, GANTT ET CHEMIN CRITIQUE
+	% =========================================================================
+	\chapter{Ordonnancement PERT, Diagramme de Gantt et Chemin Critique}
+	
+	\section{Méthodologie du Réseau PERT / Potentiels}
+	L'ordonnancement s'appuie sur la méthode du chemin critique (\textit{Critical Path Method} - CPM) et le graphe potentiel-tâche. Pour chaque activité $i$, nous déterminons :
+	\begin{itemize}[leftmargin=1.2cm, noitemsep]
+		\item \textbf{Date de début au plus tôt ($ES_i$)} : $ES_i = \max_{p \in Pred(i)} (EF_p)$, avec $ES_A = 0$ (soit début au matin du Jour 1).
+		\item \textbf{Date de fin au plus tôt ($EF_i$)} : $EF_i = ES_i + d_i$.
+		\item \textbf{Date de fin au plus tard ($LF_i$)} : $LF_i = \min_{s \in Succ(i)} (LS_s)$, avec $LF_H = EF_H$.
+		\item \textbf{Date de début au plus tard ($LS_i$)} : $LS_i = LF_i - d_i$.
+		\item \textbf{Marge Totale ($MT_i$)} : $MT_i = LS_i - ES_i = LF_i - EF_i$. Retard maximal admissible sans différer la date d'achèvement global du projet.
+		\item \textbf{Marge Libre ($ML_i$)} : $ML_i = \min_{s \in Succ(i)} (ES_s) - EF_i$. Retard maximal admissible sans retarder le début au plus tôt des successeurs directs.
+	\end{itemize}
+	
+	\section{Tableau Récapitulatif d'Ordonnancement}
+	Le tableau~\ref{tab:calcul_pert} détaille l'intégralité des valeurs calculées lors des passes avant (\textit{forward pass}) et arrière (\textit{backward pass}).
+	
+	\begin{table}[H]
+		\centering
+		\small
+		\renewcommand{\arraystretch}{1.12}
+		\caption{Paramètres d'ordonnancement PERT, marges et criticité}
+		\label{tab:calcul_pert}
+		\begin{tabularx}{\textwidth}{c c c c c c c c c c c}
+			\toprule
+			\textbf{Act.} & \textbf{Durée} & \textbf{Pred.} & \textbf{ES} & \textbf{EF} & \textbf{LS} & \textbf{LF} & \textbf{MT} & \textbf{ML} & \textbf{Plage (Jours)} & \textbf{Statut} \\
+			\midrule
+			\textbf{A} & 4 & -- & 0 & 4 & 0 & 4 & 0 & 0 & J1 -- J4 & \textbf{Critique} \\
+			\textbf{B} & 3 & A & 4 & 7 & 4 & 7 & 0 & 0 & J5 -- J7 & \textbf{Critique} \\
+			\textbf{C} & 2 & A & 4 & 6 & 5 & 7 & 1 & 1 & J5 -- J6 & Non critique \\
+			\textbf{D} & 6 & B, C & 7 & 13 & 7 & 13 & 0 & 0 & J8 -- J13 & \textbf{Critique} \\
+			\textbf{E} & 5 & B & 7 & 12 & 8 & 13 & 1 & 1 & J8 -- J12 & Non critique \\
+			\textbf{F} & 4 & D, E & 13 & 17 & 13 & 17 & 0 & 0 & J14 -- J17 & \textbf{Critique} \\
+			\textbf{G} & 2 & F & 17 & 19 & 17 & 19 & 0 & 0 & J18 -- J19 & \textbf{Critique} \\
+			\textbf{H} & 1 & G & 19 & 20 & 19 & 20 & 0 & 0 & J20 -- J20 & \textbf{Critique} \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+	
+	\section{Représentation Graphique du Réseau PERT}
+	La figure~\ref{fig:pert_network} illustre le graphe d'ordonnancement sous la forme potentiel-tâche. Chaque boîte affiche le standard d'ingénierie : $\left[\frac{\text{ES }|\text{ Durée }|\text{ EF}}{\text{LS }|\text{ MT }|\text{ LF}}\right]$. Le chemin critique est matérialisé par des arêtes doubles en rouge vif.
+	
+	\begin{figure}[H]
+		\centering
+		\resizebox{\textwidth}{!}{%
+		\begin{tikzpicture}[
+			node distance=1.4cm and 1.8cm,
+			pnode/.style={draw=slategray, fill=white, thick, rounded corners=1mm, text width=2.4cm, align=center, font=\scriptsize, drop shadow},
+			critnode/.style={draw=critred, fill=critred!10, very thick, rounded corners=1mm, text width=2.4cm, align=center, font=\scriptsize, drop shadow},
+			parrow/.style={-{Latex[length=2.5mm, width=1.5mm]}, thick, color=slategray},
+			critarrow/.style={-{Latex[length=3.0mm, width=2.0mm]}, very thick, color=critred}
+		]
+		
+		% Nodes
+		\node[critnode] (A) at (0, 0) {\textbf{A : Analyse}\\$\left[\frac{0\ |\ 4\ |\ 4}{0\ |\ 0\ |\ 4}\right]$};
+		\node[critnode] (B) at (3.5, 1.2) {\textbf{B : Concep. App}\\$\left[\frac{4\ |\ 3\ |\ 7}{4\ |\ 0\ |\ 7}\right]$};
+		\node[pnode] (C) at (3.5, -1.2) {\textbf{C : Concep. BDD}\\$\left[\frac{4\ |\ 2\ |\ 6}{5\ |\ 1\ |\ 7}\right]$};
+		\node[critnode] (D) at (7.0, 1.2) {\textbf{D : Dev Backend}\\$\left[\frac{7\ |\ 6\ |\ 13}{7\ |\ 0\ |\ 13}\right]$};
+		\node[pnode] (E) at (7.0, -1.2) {\textbf{E : Dev Frontend}\\$\left[\frac{7\ |\ 5\ |\ 12}{8\ |\ 1\ |\ 13}\right]$};
+		\node[critnode] (F) at (10.5, 0) {\textbf{F : Tests \& Corr.}\\$\left[\frac{13\ |\ 4\ |\ 17}{13\ |\ 0\ |\ 17}\right]$};
+		\node[critnode] (G) at (13.5, 0) {\textbf{G : Valid. Client}\\$\left[\frac{17\ |\ 2\ |\ 19}{17\ |\ 0\ |\ 19}\right]$};
+		\node[critnode] (H) at (16.5, 0) {\textbf{H : Déploiement}\\$\left[\frac{19\ |\ 1\ |\ 20}{19\ |\ 0\ |\ 20}\right]$};
+		
+		% Arrows
+		\draw[critarrow] (A) -- (B);
+		\draw[parrow] (A) -- (C);
+		\draw[critarrow] (B) -- (D);
+		\draw[parrow] (B) -- (E);
+		\draw[parrow] (C) -- (D);
+		\draw[critarrow] (D) -- (F);
+		\draw[parrow] (E) -- (F);
+		\draw[critarrow] (F) -- (G);
+		\draw[critarrow] (G) -- (H);
+		
+		\end{tikzpicture}%
+		}
+		\caption{Réseau PERT potentiel-tâche (chemin critique en rouge)}
+		\label{fig:pert_network}
+	\end{figure}
+	
+	\subsection{Analyse de la Propagation Temporelle et des Marges}
+	L'application formelle de l'algorithme de propagation PERT met en évidence les dynamiques clés de l'ordonnancement :
+	\begin{itemize}[leftmargin=1.2cm, noitemsep]
+		\item \textbf{Convergence amont sur le développement backend (D)} : L'activité D requiert l'achèvement préalable de la conception applicative (B, terminée à $EF_B = 7$) et de la base de données (C, terminée à $EF_C = 6$). La date de début au plus tôt est donc contrainte par le chemin le plus long : $ES_D = \max(EF_B, EF_C) = \max(7, 6) = 7$.
+		\item \textbf{Marge sur la base de données (C)} : S'achevant au jour 6 alors que son successeur D ne démarre qu'au jour 7, la conception BDD bénéficie d'une marge totale et d'une marge libre de 1 jour ($MT_C = ML_C = 1$). Elle peut ainsi tolérer un glissement d'une journée entière sans retarder l'ensemble du projet.
+		\item \textbf{Convergence aval sur la qualification (F)} : L'activité de tests et corrections (F) nécessite la livraison conjointe du backend (D, terminé à $EF_D = 13$) et du frontend (E, terminé à $EF_E = 12$). Le backend constituant le goulet d'étranglement qui impose $ES_F = \max(13, 12) = 13$, l'activité E bénéficie d'une marge totale et libre de 1 jour ($MT_E = ML_E = 1$).
+	\end{itemize}
+	
+	\clearpage
+	\section{Diagramme de Gantt et Calendrier d'Exécution}
+	Le diagramme de Gantt (figure~\ref{fig:gantt_chart}) projette l'ordonnancement sur l'échelle temporelle des 30 jours ouvrés alloués au projet. Le jour 1 correspond au premier jour ouvré d'intervention.
+	
+	\begin{figure}[H]
+		\centering
+		\resizebox{\textwidth}{!}{%
+		\begin{tikzpicture}[
+			x=0.48cm, y=-0.85cm,
+			taskbar/.style={fill=accentblue!75, draw=accentblue!90, thick, rounded corners=1mm},
+			critbar/.style={fill=critred!80, draw=critred!95, thick, rounded corners=1mm},
+			floatbar/.style={fill=safegreen!30, draw=safegreen!80, dashed, thick, rounded corners=1mm},
+			gridline/.style={draw=gray!25, line width=0.3pt},
+			deadlineline/.style={draw=critred, line width=1.2pt, dash pattern=on 4pt off 3pt}
+		]
+		
+		% Grille temporelle de 1 à 30
+		\foreach \t in {1,...,30} {
+			\draw[gridline] (\t, 0.5) -- (\t, 9.5);
+			\node[font=\tiny\bfseries, color=slategray] at (\t-0.5, 0.1) {\t};
+		}
+		
+		% En-tête des colonnes
+		\node[font=\scriptsize\bfseries, anchor=east] at (-0.3, 0.1) {Jour ouvré :};
+		
+		% Lignes d'activités
+		% A : J1 à J4 (durée 4)
+		\node[font=\scriptsize\bfseries, anchor=east] at (-0.3, 1) {\textbf{A} : Analyse des besoins};
+		\draw[critbar] (0, 0.7) rectangle (4, 1.3);
+		\node[font=\tiny\bfseries, color=white] at (2, 1) {4j (Critique)};
+		
+		% B : J5 à J7 (durée 3)
+		\node[font=\scriptsize\bfseries, anchor=east] at (-0.3, 2) {\textbf{B} : Conception de l'application};
+		\draw[critbar] (4, 1.7) rectangle (7, 2.3);
+		\node[font=\tiny\bfseries, color=white] at (5.5, 2) {3j (Critique)};
+		
+		% C : J5 à J6 (durée 2, float 1)
+		\node[font=\scriptsize\bfseries, anchor=east] at (-0.3, 3) {\textbf{C} : Conception base de données};
+		\draw[taskbar] (4, 2.7) rectangle (6, 3.3);
+		\node[font=\tiny\bfseries, color=white] at (5, 3) {2j};
+		\draw[floatbar] (6, 2.7) rectangle (7, 3.3);
+		\node[font=\tiny\bfseries, color=safegreen] at (6.5, 3) {M:1j};
+		
+		% D : J8 à J13 (durée 6)
+		\node[font=\scriptsize\bfseries, anchor=east] at (-0.3, 4) {\textbf{D} : Développement backend};
+		\draw[critbar] (7, 3.7) rectangle (13, 4.3);
+		\node[font=\tiny\bfseries, color=white] at (10, 4) {6j (Critique)};
+		
+		% E : J8 à J12 (durée 5, float 1)
+		\node[font=\scriptsize\bfseries, anchor=east] at (-0.3, 5) {\textbf{E} : Développement frontend};
+		\draw[taskbar] (7, 4.7) rectangle (12, 5.3);
+		\node[font=\tiny\bfseries, color=white] at (9.5, 5) {5j};
+		\draw[floatbar] (12, 4.7) rectangle (13, 5.3);
+		\node[font=\tiny\bfseries, color=safegreen] at (12.5, 5) {M:1j};
+		
+		% F : J14 à J17 (durée 4)
+		\node[font=\scriptsize\bfseries, anchor=east] at (-0.3, 6) {\textbf{F} : Tests et corrections};
+		\draw[critbar] (13, 5.7) rectangle (17, 6.3);
+		\node[font=\tiny\bfseries, color=white] at (15, 6) {4j (Critique)};
+		
+		% G : J18 à J19 (durée 2)
+		\node[font=\scriptsize\bfseries, anchor=east] at (-0.3, 7) {\textbf{G} : Validation client};
+		\draw[critbar] (17, 6.7) rectangle (19, 7.3);
+		\node[font=\tiny\bfseries, color=white] at (18, 7) {2j (Critique)};
+		
+		% H : J20 à J20 (durée 1)
+		\node[font=\scriptsize\bfseries, anchor=east] at (-0.3, 8) {\textbf{H} : Déploiement \& livraison};
+		\draw[critbar] (19, 7.7) rectangle (20, 8.3);
+		\node[font=\tiny\bfseries, color=white] at (19.5, 8) {1j};
+		
+		% Tampon de sécurité (Buffer J21 à J30)
+		\draw[fill=primarygreen!15, draw=primarygreen!60, dotted, thick, rounded corners=1mm] (20, 0.7) rectangle (30, 8.3);
+		\node[font=\small\bfseries, color=primarygreen!80, rotate=90] at (25, 4.5) {Marge Stratégique Contractuelle : 10 Jours Ouvrés (Tampon)};
+		
+		% Ligne d'échéance contractuelle
+		\draw[deadlineline] (30, 0.5) -- (30, 9.0);
+		\node[font=\scriptsize\bfseries, color=critred, anchor=north] at (30, 9.1) {Délai Imparti : J30};
+		
+		% Jalon de fin technique
+		\draw[draw=primarygreen, fill=primarygreen, thick] (20, 8.5) -- (20.3, 8.9) -- (19.7, 8.9) -- cycle;
+		\node[font=\tiny\bfseries, color=primarygreen, anchor=north] at (20, 9.0) {Livraison : J20};
+		
+		\end{tikzpicture}%
+		}
+		\caption{Diagramme de Gantt avec mise en évidence du chemin critique et de la marge tampon}
+		\label{fig:gantt_chart}
+	\end{figure}
+	
+	\subsection{Lecture Analytique du Diagramme et Conventions Graphiques}
+	La représentation temporelle formalisée ci-dessus intègre l'ensemble des contraintes de séquencement et met en évidence la dynamique du calendrier opérationnel :
+	\begin{itemize}[leftmargin=1.0cm, noitemsep, topsep=1pt]
+		\item \textbf{Barres rouges pleines} : Matérialisent les activités critiques ($MT = 0$). Tout retard sur ces tâches reporte d'autant la date de livraison finale.
+		\item \textbf{Barres vertes pointillées} : Illustrent les marges libres des activités non critiques C et E ($ML = 1$ jour), permettant des décalages sans impact direct.
+		\item \textbf{Zone tampon hachurée (J21 à J30)} : Représente la réserve de prévoyance contractuelle de 10 jours ouvrés protégeant l'engagement de livraison.
+	\end{itemize}
+	
+	\clearpage
+	\section{Analyse des Résultats et Vérification du Délai Contractuel}
+	\enlargethispage{2\baselineskip}
+	
+	\subsection{Détermination de la Durée Minimale et Faisabilité des Délais}
+	La durée minimale théorique d'exécution correspond à la somme des durées des activités composant la plus longue chaîne séquentielle du projet (le chemin critique) :
+	\begin{equation}
+		\setlength{\abovedisplayskip}{2pt}\setlength{\belowdisplayskip}{2pt}
+		T_{\min} = d_A + d_B + d_D + d_F + d_G + d_H = 4 + 3 + 6 + 4 + 2 + 1 = \mathbf{20\text{ jours ouvrés}}
+	\end{equation}
+	
+	Le délai contractuel imparti par l'entreprise étant de \textbf{30 jours ouvrés}, la condition d'admissibilité temporelle est vérifiée :
+	\begin{equation}
+		\setlength{\abovedisplayskip}{2pt}\setlength{\belowdisplayskip}{2pt}
+		T_{\min} = 20\text{ jours} \le 30\text{ jours contractuels} \quad \Longrightarrow \quad \mathbf{\text{Projet parfaitement réalisable}}
+	\end{equation}
+	Cette configuration procure une \textbf{marge de sécurité résiduelle de 10 jours ouvrés} ($30 - 20 = 10$). Ce tampon projet (\textit{Project Buffer}) permet d'absorber d'éventuels retards sur les activités de développement ou d'éventuelles reprises lors de la recette sans compromettre la date butoir.
+	
+	\subsection{Identification du Chemin Critique et des Activités Critiques}
+	Le chemin critique correspond à la séquence des activités dont la marge totale est nulle ($MT = 0$) :
+	\begin{equation}
+		\setlength{\abovedisplayskip}{2pt}\setlength{\belowdisplayskip}{2pt}
+		\text{Chemin Critique} : \mathbf{A \longrightarrow B \longrightarrow D \longrightarrow F \longrightarrow G \longrightarrow H}
+	\end{equation}
+	Les activités critiques sont au nombre de six : \textbf{A} (Analyse des besoins, 4j), \textbf{B} (Conception de l'application, 3j), \textbf{D} (Développement du backend, 6j), \textbf{F} (Tests et corrections, 4j), \textbf{G} (Validation par le client, 2j) et \textbf{H} (Déploiement et livraison, 1j).
+	
+	\subsection{Activités Non Critiques, Marges et Analyse de Sensibilité}
+	Deux activités disposent d'une flexibilité temporelle appréciable :
+	\begin{itemize}[leftmargin=1.0cm, noitemsep, topsep=1pt]
+		\item \textbf{Activité C (Conception BDD)} : $ES = 4, EF = 6$, son successeur D commençant à $ES_D = 7$ (car B s'achève à 7). Elle bénéficie d'une marge totale et libre de \textbf{1 jour} ($MT=1, ML=1$). Elle peut donc s'étendre sur les jours 5 à 7 sans impact.
+		\item \textbf{Activité E (Développement frontend)} : $ES = 7, EF = 12$, son successeur F attendant la fin de D à $ES_F = 13$. Elle bénéficie d'une marge totale et libre de \textbf{1 jour} ($MT=1, ML=1$).
+	\end{itemize}
+	L'évaluation de la robustesse globale met en lumière deux points managériaux clés :
+	\begin{itemize}[leftmargin=1.0cm, noitemsep, topsep=1pt]
+		\item \textbf{Sensibilité accrue du backend (Activité D)} : Représentant 30\,\% de la durée minimale (6 jours), tout aléa sur D consomme immédiatement la réserve de prévoyance contractuelle.
+		\item \textbf{Robustesse des branches parallèles} : Les 24h de battement sur C et E permettent d'absorber d'éventuelles itérations ergonomiques sans former de second chemin critique.
+	\end{itemize}
+
+	% =========================================================================
+	% CHAPITRE 5 : CONCLUSION ET BILAN OPÉRATIONNEL
+	% =========================================================================
+	\chapter{Conclusion et Bilan Opérationnel}
+	
+	\section{Synthèse des Résultats de la Planification}
+	La démarche de planification menée pour la plateforme web de gestion des stages apporte des réponses méthodologiques précises et sécurisantes :
+	\begin{enumerate}[leftmargin=1.0cm, noitemsep, topsep=2pt]
+		\item \textbf{Décomposition WBS exhaustive (Question 1)} : Le découpage structuré en 5 grandes phases et 8 activités élémentaires (A à H) offre une visibilité complète sur le périmètre et facilite le contrôle des livrables.
+		\item \textbf{Gouvernance OBS et RACI univoque (Questions 2 \& 3)} : L'attribution stricte d'un unique \textit{Accountable} (A) par tâche élimine toute ambiguïté managériale. Le chef de projet (CP) pilote l'exécution technique, tandis que le représentant client (CL) assume la responsabilité décisionnelle de l'homologation lors de la recette finale.
+		\item \textbf{Faisabilité calendaire validée (Question 4)} : Le calcul des dates au plus tôt et au plus tard par la méthode PERT démontre une durée minimale d'exécution de \textbf{20 jours ouvrés}, garantissant la livraison bien en deçà du délai contractuel imposé de \textbf{30 jours ouvrés}.
+		\item \textbf{Marge tampon de 10 jours ouvrés} : La différence entre le délai imparti (30 jours) et la durée minimale (20 jours) constitue une réserve stratégique de 10 jours permettant d'absorber d'éventuels aléas sur le chemin critique.
+	\end{enumerate}
+	
+	\section{Recommandations Opérationnelles pour le Lancement}
+	Pour assurer une exécution fluide et conforme au diagramme de Gantt, le chef de projet formule trois recommandations :
+	\begin{itemize}[leftmargin=1.0cm, noitemsep, topsep=2pt]
+		\item \textbf{Cadrage initial sanctuarisé} : Convoquer la réunion de lancement dès le jour 1 avec le représentant client CL pour valider sans ambiguïté les règles métier des conventions de stage.
+		\item \textbf{Réservation de l'agenda client pour la recette} : Bloquer en amont les créneaux des jours 18 et 19 pour la signature du procès-verbal de validation UAT.
+		\item \textbf{Déploiement continu précoce} : Automatiser la chaîne CI/CD dès les phases de codage afin de rendre la livraison finale (H) fluide, mécanique et sans risque.
+	\end{itemize}
+
+\end{document}

@@ -1,0 +1,35 @@
+# =============================================================================
+# INSEA · Master M2SI & 3A DS-E · Cours de Machine Learning (2026/2027)
+# Mini-Projet 01 : Détection du Cancer du Sein (WDBC)
+# Fichier de dépendances Python pour l'équipe du projet
+# =============================================================================
+#
+# Pour installer toutes les dépendances, exécutez dans votre terminal :
+#     pip install -r requirements.txt
+#
+# =============================================================================
+
+# --- Manipulation de données et calcul scientifique ---
+numpy>=1.26.0
+pandas>=2.0.0
+scipy>=1.11.0
+
+# --- Machine Learning & Modélisation (Scikit-Learn) ---
+scikit-learn>=1.4.0
+
+# --- Visualisation de données et graphiques ---
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# --- Téléchargement du jeu de données officiel UCI ---
+ucimlrepo>=0.0.7
+
+# --- Environnement Jupyter Notebook ---
+jupyter>=1.0.0
+notebook>=7.0.0
+ipykernel>=6.25.0
+nbformat>=5.9.0
+nbclient>=0.9.0
+
+# --- Génération et manipulation de présentations PowerPoint ---
+python-pptx>=1.0.0
