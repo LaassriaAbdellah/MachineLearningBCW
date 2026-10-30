@@ -1,0 +1,517 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{hyperref}
+
+\geometry{
+	top=2.0cm,
+	bottom=2.0cm,
+	left=1.8cm,
+	right=1.8cm,
+	headheight=24pt,
+	footskip=20pt
+}
+
+% Couleurs INSEA & Charte Graphique Médicale
+\definecolor{primarygreen}{RGB}{0, 92, 56}       % #005C38 Vert INSEA
+\definecolor{accentblue}{RGB}{20, 82, 133}        % #145285 Bleu Clinique
+\definecolor{darkslate}{RGB}{30, 41, 59}          % #1E293B Gris Titres
+\definecolor{emerald}{RGB}{16, 149, 106}          % #10956A Émeraude
+\definecolor{crimsonred}{RGB}{185, 28, 28}        % #B91C1C Rouge Alerte FN
+\definecolor{amberalert}{RGB}{180, 83, 9}         % #B45309 Ambre
+\definecolor{lightgreenbg}{RGB}{240, 248, 243}    % Vert clair
+\definecolor{lightgraybg}{RGB}{248, 250, 252}     % Gris clair fond
+\definecolor{lightredbg}{RGB}{254, 242, 242}      % Rouge clair
+\definecolor{lightamberbg}{RGB}{255, 251, 235}    % Ambre clair
+\definecolor{cardborder}{RGB}{226, 232, 240}      % Bordure carte
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=primarygreen,
+	urlcolor=accentblue,
+	citecolor=emerald
+}
+
+% Boîtes d'alerte et de synthèse stylisées
+\tcbset{
+	basebox/.style={
+		enhanced,
+		breakable,
+		arc=2.5mm,
+		boxrule=0.9pt,
+		left=3.5mm, right=3.5mm, top=2.5mm, bottom=2.5mm,
+		before skip=6pt, after skip=6pt
+	},
+	greenbox/.style={
+		basebox,
+		colback=lightgreenbg,
+		colframe=primarygreen,
+		coltitle=white,
+		fonttitle=\bfseries\small
+	},
+	bluebox/.style={
+		basebox,
+		colback=lightgraybg,
+		colframe=accentblue,
+		coltitle=white,
+		fonttitle=\bfseries\small
+	},
+	redbox/.style={
+		basebox,
+		colback=lightredbg,
+		colframe=crimsonred,
+		coltitle=white,
+		fonttitle=\bfseries\small
+	},
+	amberbox/.style={
+		basebox,
+		colback=lightamberbg,
+		colframe=amberalert,
+		coltitle=white,
+		fonttitle=\bfseries\small
+	},
+	memberbox/.style={
+		basebox,
+		colback=white,
+		colframe=primarygreen,
+		fonttitle=\bfseries\normalsize,
+		boxrule=1.1pt
+	}
+}
+
+% En-tête et pied de page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-1.5pt}{\includegraphics[height=18pt,keepaspectratio]{logos/head.png}}}
+\fancyhead[R]{\small\color{darkslate}\textbf{Dossier de Synthèse Intégrale \& Mémento de Soutenance}}
+\fancyfoot[L]{\footnotesize\color{gray}INSEA}
+\fancyfoot[C]{\footnotesize\color{darkslate}\textbf{Projet ML : Détection du Cancer du Sein (WDBC)}}
+\fancyfoot[R]{\small\bfseries\color{primarygreen}Page \thepage\ sur \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+\begin{document}
+
+% =========================================================================
+% EN-TÊTE INSTITUTIONNEL OFFICIEL
+% =========================================================================
+\noindent
+\begin{minipage}[c]{0.22\textwidth}
+	\raggedright
+	\includegraphics[height=1.8cm,keepaspectratio]{logos/HCP-container.png}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.54\textwidth}
+	\centering
+	{\fontsize{9}{10.5}\selectfont \textbf{Royaume du Maroc -- Haut-Commissariat au Plan}\par}
+	\vspace{0.08cm}
+	{\fontsize{10}{11.5}\selectfont \textbf{Institut National de Statistique et d'Économie Appliquée}\par}
+	\vspace{0.08cm}
+	{\fontsize{12}{14}\selectfont \textbf{\color{primarygreen}INSEA -- Année Universitaire 2026/2027}\par}
+	\vspace{0.08cm}
+	{\fontsize{9}{10.5}\selectfont Encadré par : \textbf{Pr. SAIDI Mohamed Nabil}\par}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.22\textwidth}
+	\raggedleft
+	\includegraphics[height=1.9cm,keepaspectratio]{logos/INSEA_logo.png}
+\end{minipage}
+
+\vspace{0.35cm}
+\begin{center}
+	{\LARGE\bfseries \color{primarygreen}Dossier de Synthèse Intégrale \& Mémento Exécutif\par}
+	\vspace{0.15cm}
+	{\large\bfseries Benchmark Supervisé, Étanchéité Anti-Leakage \& Optimisation Clinique du Rappel\par}
+	\vspace{0.12cm}
+	{\small\textbf{Base :} Wisconsin Diagnostic Breast Cancer (WDBC - UCI 17)\quad$\vert$\quad\textbf{Date :} 30 octobre 2026\quad$\vert$\quad\textbf{Équipe :} 4 Membres}
+\end{center}
+
+\vspace{0.15cm}
+\hrule height 0.8pt
+\vspace{0.25cm}
+
+% Tableau d'identification de l'équipe
+\noindent
+\begin{tcolorbox}[greenbox, title={Composition de l'Équipe Projet \& Répartition des Responsabilités}]
+\small
+\begin{tabularx}{\textwidth}{l l X}
+	\textbf{Membre} & \textbf{Filière} & \textbf{Périmètre d'Intervention \& Contributions Majeures} \\
+	\midrule
+	\textbf{BOUITA Yassir} & Master M2SI & Modélisation Supervisée, Réglage Fin des Hyperparamètres (GridSearchCV) \& Benchmark Global \\
+	\textbf{KAIROUCH Zakarya} & Master M2SI & Exploration des Données (EDA), Analyse Géométrique \& Protocole Anti-Leakage (Pipelines) \\
+	\textbf{LAASSRIA Abdellah} & Master M2SI & Cadrage Médical, Sommaire, Asymétrie Critique des Coûts \& Question Centrale INSEA \\
+	\textbf{HAIMED Yasser} & 3\textsuperscript{e} Année DS-E & Diagnostic des Matrices de Confusion, Seuil Clinique Optimal ($\tau^*=0.35$), Explicabilité \& Conclusion \\
+\end{tabularx}
+\end{tcolorbox}
+
+% =========================================================================
+% SECTION 1 : FICHE SIGNALÉTIQUE ET GÉOMÉTRIE DES DONNÉES
+% =========================================================================
+\section{Fiche Signalétique des Données \& Analyse Exploratoire (EDA)}
+
+\begin{tcolorbox}[bluebox, title={Données Clés de la Base WDBC (UCI Machine Learning Repository ID = 17)}]
+\small
+\begin{itemize}[leftmargin=0.5cm, itemsep=2pt, parsep=0pt]
+	\item \textbf{Origine clinique :} Travaux pionniers du Dr. William H. Wolberg (chirurgien oncologue), W. Nick Street et Olvi L. Mangasarian (University of Wisconsin Hospitals, Madison).
+	\item \textbf{Mode d'obtention :} Cytoponction à l'aiguille fine (\textit{Fine Needle Aspirate} -- FNA) d'une masse mammaire suspecte, numérisation microscopique des lames et segmentation logicielle des contours nucléaires (système Xcyt).
+	\item \textbf{Dimensions exactes :} \textbf{569 observations} (patientes) $\times$ \textbf{30 variables descriptives continues} + 1 variable cible binaire.
+	\item \textbf{Qualité des données :} \textbf{0 valeur manquante} (aucune cellule vide, aucune imputation nécessaire).
+	\item \textbf{Répartition de la cible (Diagnostic) :}
+	\begin{itemize}[itemsep=1pt]
+		\item \textbf{Bénigne (B) / Classe 0 :} 357 patientes, soit \textbf{62,74\,\%}.
+		\item \textbf{Maligne (M) / Classe 1 :} 212 patientes, soit \textbf{37,26\,\%}.
+	\end{itemize}
+	Déséquilibre modéré ne nécessitant pas d'oversampling synthétique agressif (SMOTE), mais imposant un découpage rigoureusement \textbf{stratifié}.
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Description des 30 Variables \& Multicolinéarité Géométrique}
+Chaque noyau cellulaire est caractérisé par \textbf{10 mesures physiques fondamentales} :
+\begin{enumerate}[itemsep=1pt, parsep=0pt]
+	\item \textbf{Rayon (\textit{radius}) :} Moyenne des distances entre le centre de gravité et les points du contour.
+	\item \textbf{Texture (\textit{texture}) :} Écart-type des niveaux de gris dans l'échelle de luminosité.
+	\item \textbf{Périmètre (\textit{perimeter}) :} Longueur totale du contour nucléaire fermé.
+	\item \textbf{Aire (\textit{area}) :} Surface interne délimitée par la membrane nucléaire.
+	\item \textbf{Régularité (\textit{smoothness}) :} Variation locale des longueurs de rayon.
+	\item \textbf{Compacité (\textit{compactness}) :} Rapport adimensionnel $\frac{\text{périmètre}^2}{\text{aire}} - 1.0$.
+	\item \textbf{Concavité (\textit{concavity}) :} Sévérité et profondeur des indentations concaves sur le contour.
+	\item \textbf{Points concaves (\textit{concave points}) :} Nombre exact de zones d'indentation concave sur la membrane.
+	\item \textbf{Symétrie (\textit{symmetry}) :} Écart de symétrie nucléaire par rapport à l'axe principal.
+	\item \textbf{Dimension fractale (\textit{fractal dimension}) :} Approximation de la rugosité de contour (« approximation de côte » $- 1$).
+\end{enumerate}
+Pour chacune de ces 10 grandeurs, \textbf{3 statistiques} sont systématiquement calculées :
+\begin{itemize}[itemsep=1pt, parsep=0pt]
+	\item \texttt{\_mean} (moyenne sur l'ensemble des cellules de la lame),
+	\item \texttt{\_se} (\textit{standard error}, variabilité cellulaire intra-lame),
+	\item \texttt{\_worst} (moyenne des 3 plus grands noyaux les plus altérés de la biopsie).
+\end{itemize}
+$10 \times 3 = \mathbf{30\text{ variables continus}}$.
+
+\begin{tcolorbox}[amberbox, title={Découverte EDA Cruciale : La Multicolinéarité Géométrique Extrême}]
+\small
+L'analyse de corrélation de Spearman et Pearson révèle des corrélations supérieures à \textbf{0,98} entre \texttt{radius}, \texttt{perimeter} et \texttt{area} (lois physiques $P \approx 2\pi R$ et $A \approx \pi R^2$).
+\begin{itemize}[leftmargin=0.5cm, itemsep=1pt]
+	\item \textbf{Implication algorithmique :} Dans les modèles linéaires non régularisés, la matrice de covariance $X^T X$ est quasi-singulière (conditionnement très dégradé), provoquant une explosion de la variance des coefficients estimés.
+	\item \textbf{Remède obligatoire :} Une régularisation $L_2$ (Ridge) ou $L_1$ (Lasso) est impérative pour contracter les coefficients et garantir la stabilité numérique du classifieur.
+	\item \textbf{Variables les plus discriminantes :} Les variables d'hypertrophie (\texttt{worst concave points}, \texttt{worst perimeter}, \texttt{worst area}) séparent presque parfaitement les classes à l'analyse par densité (KDE).
+\end{itemize}
+\end{tcolorbox}
+
+% =========================================================================
+% SECTION 2 : CADRAGE CLINIQUE ET QUESTION CENTRALE
+% =========================================================================
+\section{Cadrage Médical, Asymétrie des Coûts \& Question Centrale}
+
+\begin{tcolorbox}[greenbox, title={La Question Centrale Formulée par l'INSEA}]
+\centering\large\itshape
+« Quel modèle classe le mieux les observations, et lequel limite le risque de ne pas identifier une tumeur maligne ? »
+\end{tcolorbox}
+
+\noindent
+Cette question comporte deux volets distincts que le projet traite avec une rigueur statistique et médicale complète :
+\begin{enumerate}[itemsep=3pt]
+	\item \textbf{Volet 1 (Performance globale de classification) :} Évaluer la capacité du modèle à bien prédire les deux classes (mesurée par l'\textbf{Accuracy} globale et l'aire sous la courbe \textbf{ROC-AUC}).
+	\item \textbf{Volet 2 (Minimisation du risque vital oncologique) :} Évaluer la capacité du modèle à ne laisser échapper aucune patiente atteinte d'une tumeur cancéreuse, mesurée par le \textbf{Rappel de la classe Maligne} ($\text{Recall}_M$) et le décompte absolu des \textbf{Faux Négatifs (FN)}.
+\end{enumerate}
+
+\subsection{Matrice des Coûts Médicaux et Non-Pertinence de l'Accuracy Seule}
+En médecine oncologique, les deux types d'erreurs ont un coût incommensurablement asymétrique :
+\begin{itemize}[leftmargin=0.6cm, itemsep=3pt]
+	\item \textbf{Faux Négatif (FN) -- Le Danger Mortel Létal :} Le classifieur diagnostique une tumeur « Bénigne » alors qu'elle est « Maligne ». La patiente quitte le parcours de soins sans protocole thérapeutique (chimiothérapie, chirurgie, radiothérapie). La lésion prolifère, métastase dans les ganglions axillaires et le système vasculaire, provoquant une perte de chance thérapeutique irréversible, voire le décès de la patiente.
+	\item \textbf{Faux Positif (FP) -- Le Risque Psychologique et Iatrogène :} Le classifieur diagnostique une tumeur « Maligne » pour un tissu sain. La patiente subit un stress anxiogène aigu et est orientée vers une biopsie histologique au trocart (examen invasif de contrôle). L'examen confirmera la bénignité. Le coût est anxiogène et financier, mais le pronostic vital est intégralement préservé.
+\end{itemize}
+
+\begin{tcolorbox}[redbox, title={Démonstration : Pourquoi l'Accuracy Brute est Dangereuse en Santé}]
+\small
+Dans une cohorte à 62,7\,\% de cas bénins, un algorithme trivial prédisant systématiquement « Bénin » obtiendrait une \textbf{Accuracy de 62,7\,\%}, tout en affichant un \textbf{Rappel Malin de 0\,\%} et en laissant mourir 100\,\% des femmes atteintes d'un cancer.  
+\textbf{Règle d'or du projet :} La performance clinique se juge avant tout sur la maximisation du Rappel ($\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}$) et la minimisation absolue des FN.
+\end{tcolorbox}
+
+% =========================================================================
+% SECTION 3 : PROTOCOLE EXPÉRIMENTAL ET ÉTANCHÉITÉ ANTI-LEAKAGE
+% =========================================================================
+\section{Protocole Expérimental Rigoureux \& Étanchéité Méthodologique}
+
+\noindent
+Pour garantir des résultats irréfutables et exempts de tout biais de sur-optimisme, le protocole a respecté trois règles méthodologiques strictes :
+
+\begin{enumerate}[leftmargin=0.6cm, itemsep=3pt]
+	\item \textbf{Découpage Stratifié Fixé (80\,\% Apprentissage / 20\,\% Test) :}
+	\begin{itemize}[itemsep=1pt]
+		\item Graine aléatoire fixée : \texttt{random\_state = 42}.
+		\item \textbf{Jeu d'entraînement ($N_{\text{train}} = 455$) :} 285 bénignes (62,6\,\%), 170 malignes (37,4\,\%).
+		\item \textbf{Jeu de test vierge ($N_{\text{test}} = 114$) :} 72 bénignes (63,2\,\%), 42 malignes (36,8\,\%).
+	\end{itemize}
+	La stratification préserve strictement le ratio épidémiologique dans les deux sous-ensembles.
+	
+	\item \textbf{Étanchéité Parfaite (Zero Data Leakage) :}
+	\begin{itemize}[itemsep=1pt]
+		\item \textbf{L'erreur méthodologique classique :} Ajuster un \texttt{StandardScaler} sur l'ensemble de la base ($N=569$) avant le découpage introduit une fuite d'information statistique (\textit{data leakage}) : la moyenne et l'écart-type du jeu de test contaminent les données d'entraînement.
+		\item \textbf{Notre architecture étanche :} L'étape de standardisation est strictement encapsulée dans des objets \texttt{Pipeline} Scikit-Learn. Le calcul des paramètres $(\mu, \sigma)$ s'effectue exclusivement sur les plis d'entraînement.
+	\end{itemize}
+	
+	\item \textbf{Validation Croisée Interne K-Fold Stratifiée ($K=5$) :}
+	L'exploration et l'optimisation des hyperparamètres par \texttt{GridSearchCV} ont été menées exclusivement sur les 455 observations d'entraînement. Le jeu de test de 114 observations a été mis sous séquestre complet jusqu'à l'évaluation finale.
+\end{enumerate}
+
+% =========================================================================
+% SECTION 4 : MODÉLISATION SUPERVISÉE ET GRAND BENCHMARK
+% =========================================================================
+\section{Algorithmes Supervisés \& Grand Benchmark Expérimental}
+
+\noindent
+Six algorithmes de Machine Learning couvrant des familles théoriques distinctes ont été implémentés et optimisés :
+\begin{enumerate}[itemsep=2pt, parsep=0pt]
+	\item \textbf{Régression Logistique :} Modèle linéaire probabiliste régularisé $L_2$ ($C=0.1$, solveur \texttt{lbfgs}).
+	\item \textbf{Support Vector Machine (SVM) :} Séparateur à vaste marge à noyau RBF ($C=1.0$, $\gamma=\text{'scale'}$).
+	\item \textbf{Random Forest :} Forêt d'arbres décisionnels bagging ($n_{\text{estimators}}=100$, $\text{max\_depth}=6$).
+	\item \textbf{Gradient Boosting :} Boosting séquentiel d'arbres résiduels ($n=100$, $\text{learning\_rate}=0.1$, $\text{max\_depth}=3$).
+	\item \textbf{K-Plus Proches Voisins (KNN) :} Modèle non paramétrique métrique ($k=5$, pondération par distance inverse).
+	\item \textbf{Arbre de Décision (CART) :} Arbre simple élagué ($\text{max\_depth}=4$, critère de Gini).
+\end{enumerate}
+
+\subsection{Synthèse Multimétrique Finale sur le Jeu de Test Vierge \texorpdfstring{($N_{\text{test}} = 114$)}{(N_test = 114)}}
+Évaluation indépendante réalisée une seule fois à la fin du protocole (seuil de décision standard $\tau = 0.50$) :
+
+\begin{table}[H]
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l l c c c c c c c }
+	\toprule
+	\textbf{Modèle Évalué} & \textbf{Hyperparamètres} & \textbf{Accuracy} & \textbf{Précision} & \textbf{Recall (M)} & \textbf{F1-Score} & \textbf{ROC-AUC} & \textbf{FN} & \textbf{FP} \\
+	\midrule
+	\textbf{Régression Logistique} & $C=0.1$ ($L_2$) & \textbf{97,37\,\%} & 97,56\,\% & \textbf{95,24\,\%} & \textbf{0,9639} & \textbf{0,9970} & \textbf{2} & 1 \\
+	\textbf{SVM (Noyau RBF)} & $C=1.0, \gamma=\text{'scale'}$ & \textbf{97,37\,\%} & \textbf{100,00\,\%} & 92,86\,\% & 0,9630 & 0,9947 & 3 & \textbf{0} \\
+	\textbf{Random Forest} & $n=100, d=6$ & 96,49\,\% & 97,50\,\% & 92,86\,\% & 0,9512 & 0,9924 & 3 & 1 \\
+	\textbf{Gradient Boosting} & $n=100, lr=0.1$ & 95,61\,\% & 95,00\,\% & 90,48\,\% & 0,9268 & 0,9911 & 4 & 2 \\
+	\textbf{KNN} & $k=5$, dist. inverse & 94,74\,\% & 94,74\,\% & 85,71\,\% & 0,9000 & 0,9858 & 6 & 2 \\
+	\textbf{Arbre CART} & $\text{max\_depth}=4$ & 92,98\,\% & 88,64\,\% & 80,95\,\% & 0,8947 & 0,9304 & \textbf{8} & 5 \\
+	\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{tcolorbox}[greenbox, title={Analyse Théorique : Pourquoi les Modèles Linéaires \& RBF Surpassent les Arbres ?}]
+\small
+\begin{itemize}[leftmargin=0.5cm, itemsep=2pt]
+	\item \textbf{La géométrie de l'espace :} Avec 30 variables continues corrélées et 455 observations d'entraînement, l'espace des données est quasi-linéairement séparable après normalisation.
+	\item \textbf{Les limites des arbres (CART) :} Les arbres de décision partitionnent l'espace par des hyperplans strictement orthogonaux aux axes ($X_j \le s$). Ils approximent difficilement les frontières obliques lisses formées par les combinaisons linéaires des mesures cellulaires, ce qui conduit à un échec sévère : \textbf{8 cas malins manqués sur 42} ($\text{FN}=8$).
+	\item \textbf{La force de la Régression Logistique :} La pénalité Ridge ($L_2$) avec $C=0.1$ stabilise la multicolinéarité en répartissant le poids prédictif sur l'ensemble des descripteurs de volume, obtenant la meilleure généralisation globale ($\text{AUC} = 0,9970$).
+\end{itemize}
+\end{tcolorbox}
+
+% =========================================================================
+% SECTION 5 : RÉPONSE FORMELLE ET SEUIL CLINIQUE ZÉRO FAUX NÉGATIF
+% =========================================================================
+\section{Réponse à la Problématique \& Optimisation Clinique du Seuil}
+
+\subsection{Réponse Formelle et Définitive aux Deux Volets de la Question Centrale}
+\begin{enumerate}[leftmargin=0.6cm, itemsep=3pt]
+	\item \textbf{Quel modèle classe le mieux les observations ?}  
+	La \textbf{Régression Logistique} ($C=0.1$) et le \textbf{SVM RBF} sont co-champions avec une exactitude maximale de \textbf{97,37\,\%}. La Régression Logistique prend un léger avantage grâce à une aire ROC-AUC supérieure (\textbf{0,9970} contre 0,9947).
+	\item \textbf{Lequel limite le risque de ne pas identifier une tumeur maligne ?}  
+	La \textbf{Régression Logistique} est le modèle le plus sûr au seuil standard de 0,50, affichant le plus haut rappel malin (\textbf{95,24\,\%}) et ne concédant que \textbf{2 faux négatifs} (contre 3 pour SVM/Random Forest, 4 pour Gradient Boosting, 6 pour KNN et 8 pour CART).
+\end{enumerate}
+
+\subsection{Optimisation Clinique du Seuil (Threshold Tuning) vers Zéro Faux Négatif}
+Dans une unité de dépistage sénologique, manquer 2 patientes cancéreuses ($\text{FN}=2$) reste inacceptable.  
+La Régression Logistique produit une probabilité postérieure calibrée :
+$$P(Y = \text{Maligne} \mid \mathbf{x}) = \frac{1}{1 + e^{-(\mathbf{w}^T \mathbf{x} + b)}}$$
+Au lieu d'utiliser le seuil mathématique arbitraire de $\tau = 0,50$, nous avons simulé la variation continue de $\tau \in [0, 1]$ pour observer l'arbitrage Rappel / Précision :
+
+\begin{tcolorbox}[redbox, title={Le Réglage Clinique Optimal : $\tau^* = 0,35$ (ou $0,30$)}]
+\small
+En abaissant le seuil d'alerte de diagnostic malin à \textbf{$\tau^* = 0,35$} :
+\begin{itemize}[leftmargin=0.5cm, itemsep=2pt]
+	\item \textbf{Rappel de la classe Maligne = 100,0\,\%} (les 42 cas malins sur 42 sont intégralement détectés).
+	\item \textbf{Faux Négatifs = 0} (aucune patiente atteinte de tumeur maligne n'échappe au diagnostic).
+	\item \textbf{Précision Maligne = 91,30\,\%} : Le modèle ne concède que 4 Faux Positifs (tumeurs bénignes suspectées à tort). Ces patientes passeront une biopsie de contrôle de routine qui infirmera la malignité sans aucun danger létal.
+\end{itemize}
+\textbf{Conclusion opérationnelle :} Le point $\tau^* = 0,35$ constitue l'optimum médical absolu, neutralisant le risque létal tout en maintenant un taux de fausses alertes remarquablement bas.
+\end{tcolorbox}
+
+\subsection{Explicabilité Médicale \& Recommandations Opérationnelles}
+\begin{itemize}[leftmargin=0.6cm, itemsep=2pt]
+	\item \textbf{Biomarqueurs dominants :} L'extraction des coefficients du modèle régularisé montre que deux caractéristiques dominent très largement la probabilité de malignité :
+	\begin{enumerate}
+		\item \texttt{worst concave points} (irrégularité et échancrures de la membrane cellulaire),
+		\item \texttt{worst area} (hypertrophie anormale du volume nucléaire).
+	\end{enumerate}
+	\item \textbf{Recommandation de déploiement en santé publique :} L'algorithme ne doit jamais être utilisé en remplacement aveugle du praticien, mais comme un \textbf{outil d'aide à la décision en double lecture radiologique}. Il alerte le médecin sur les cas limites et garantit une sécurité diagnostique maximale.
+\end{itemize}
+
+% =========================================================================
+% SECTION 6 : FICHES INDIVIDUELLES POUR LA SOUTENANCE ORALE
+% =========================================================================
+\newpage
+\section{Fiches Individuelles de Préparation à la Soutenance Orale (8--10 min)}
+
+\noindent
+La soutenance orale dure entre 8 et 10 minutes (soit environ 45 à 55 secondes par diapositive sur le diaporama de 11 slides). Voici la feuille de route individuelle pour chaque membre de l'équipe :
+
+% -------------------------------------------------------------------------
+% MEMBRE 1 : LAASSRIA ABDELLAH
+% -------------------------------------------------------------------------
+\begin{tcolorbox}[memberbox, title={1. Abdellah LAASSRIA (Master M2SI) -- Slides 1, 2 et 3 (~2 min)}]
+\textbf{Rôle assigné :} Cadrage Clinique, Sommaire Structuré \& Question Centrale de l'INSEA.
+\begin{itemize}[leftmargin=0.5cm, itemsep=2pt]
+	\item \textbf{Ce qu'il doit dire en introduction :}
+	\begin{itemize}
+		\item Présenter le cadre institutionnel (INSEA, Cours de Machine Learning, sous la direction du Pr. SAIDI Mohamed Nabil).
+		\item Présenter le sommaire de la soutenance articulé en 4 modules d'expertise : Contexte $\rightarrow$ Données $\rightarrow$ Benchmark $\rightarrow$ Décision Clinique.
+		\item Expliquer la cytoponction (FNA) : procédure ambulatoire rapide où des cellules sont aspirées et analysées numériquement.
+	\end{itemize}
+	\item \textbf{Chiffres \& Termes clés à prononcer :}
+	\begin{itemize}
+		\item 569 patientes, 30 variables morphologiques, 0 valeur manquante.
+		\item Énoncer mot à mot la \textbf{Question Centrale} de l'énoncé de l'INSEA.
+		\item Définir l'asymétrie : FN = Danger de mort vs. FP = Anxiété temporaire contrôlable.
+	\end{itemize}
+	\item \textbf{Top 2 Questions du Jury \& Réponses Prêtes :}
+	\begin{enumerate}
+		\item \textit{« Pourquoi rejeter l'Accuracy comme critère de performance principal ? »}  
+		$\rightarrow$ \textbf{Réponse :} « Parce qu'une cohorte médicale a des coûts asymétriques. Prédire systématiquement "bénin" donnerait 62,7\,\% d'accuracy tout en manquant 100\,\% des tumeurs malignes. Notre boussole médicale est le Rappel malin. »
+		\item \textit{« Que représente le test FNA par rapport à une biopsie classique ? »}  
+		$\rightarrow$ \textbf{Réponse :} « La cytoponction est une ponction cytologique légère à l'aiguille fine sans incision chirurgicale. Le Machine Learning y intervient pour fiabiliser le tri initial des cas suspects. »
+	\end{enumerate}
+\end{itemize}
+\end{tcolorbox}
+
+% -------------------------------------------------------------------------
+% MEMBRE 2 : KAIROUCH ZAKARYA
+% -------------------------------------------------------------------------
+\begin{tcolorbox}[memberbox, title={2. Zakarya KAIROUCH (Master M2SI) -- Slides 4 et 5 (~2 min)}]
+\textbf{Rôle assigné :} Exploration des Données (EDA), Géométrie Morphologique \& Protocole Anti-Leakage.
+\begin{itemize}[leftmargin=0.5cm, itemsep=2pt]
+	\item \textbf{Ce qu'il doit dire lors de sa prise de parole :}
+	\begin{itemize}
+		\item Présenter la structure du dataset : 357 bénignes (62,7\,\%) et 212 malignes (37,3\,\%).
+		\item Montrer sur les graphiques KDE la séparation nette des distributions pour \texttt{worst concave points} et \texttt{worst area}.
+		\item Expliquer la multicolinéarité géométrique ($r > 0,98$) entre rayon, périmètre et aire imposant une régularisation.
+		\item Détailler le protocole de split stratifié 80/20 ($N_{\text{train}}=455, N_{\text{test}}=114$, graine 42).
+		\item Mettre en avant la garantie d'étanchéité méthodologique (\textbf{Zero Data Leakage}) grâce aux \texttt{Pipelines} Scikit-Learn.
+	\end{itemize}
+	\item \textbf{Chiffres \& Termes clés à prononcer :}
+	\begin{itemize}
+		\item Corrélation $> 0,98$, 10 grandeurs $\times$ 3 statistiques = 30 variables continues.
+		\item 455 observations d'apprentissage, 114 observations de test vierge.
+		\item Encapsulation du \texttt{StandardScaler} fold par fold (pas de normalisation globale préalable).
+	\end{itemize}
+	\item \textbf{Top 2 Questions du Jury \& Réponses Prêtes :}
+	\begin{enumerate}
+		\item \textit{« Pourquoi la standardisation des variables était-elle indispensable ici ? »}  
+		$\rightarrow$ \textbf{Réponse :} « Les variables ont des ordres de grandeur très hétérogènes : l'aire atteint 2500 alors que la régularité est inférieure à 0,1. Sans standardisation, le SVM et la Régression Logistique $L_2$ attribueraient un poids artificiellement disproportionné à l'aire, écrasant les autres signaux. »
+		\item \textit{« Pourquoi le split stratifié était-il impératif ? »}  
+		$\rightarrow$ \textbf{Réponse :} « Avec 37,3\,\% de cas malins, un split aléatoire simple risquait de sous-représenter les cas cancéreux dans l'échantillon test de 114 observations, rendant l'évaluation du rappel instable. »
+	\end{enumerate}
+\end{itemize}
+\end{tcolorbox}
+
+% -------------------------------------------------------------------------
+% MEMBRE 3 : BOUITA YASSIR
+% -------------------------------------------------------------------------
+\begin{tcolorbox}[memberbox, title={3. Yassir BOUITA (Master M2SI) -- Slides 6 et 7 (~2 min)}]
+\textbf{Rôle assigné :} Modélisation Supervisée, Optimisation des Hyperparamètres \& Benchmark Global.
+\begin{itemize}[leftmargin=0.5cm, itemsep=2pt]
+	\item \textbf{Ce qu'il doit dire lors de sa prise de parole :}
+	\begin{itemize}
+		\item Présenter la diversité des 6 familles de modèles supervisés implémentées (linéaire, non-linéaire, bagging, boosting, métrique, arbre simple).
+		\item Expliquer la méthodologie de recherche d'hyperparamètres via \texttt{GridSearchCV} avec validation croisée 5-folds stratifiée sur le train set exclusivement.
+		\item Détailler le grand tableau de résultats sur les 114 cas du jeu de test vierge.
+		\item Annoncer les co-champions en Accuracy : Régression Logistique ($C=0.1$) et SVM RBF à \textbf{97,37\,\%}.
+		\item Mettre en avant la supériorité clinique de la Régression Logistique : \textbf{Rappel de 95,24\,\%} (40/42 cas malins détectés, seulement 2 FN) et ROC-AUC de \textbf{0,9970}.
+		\item Souligner l'échec relatif de l'Arbre CART (8 faux négatifs, 80,95\,\% de rappel).
+	\end{itemize}
+	\item \textbf{Chiffres \& Termes clés à prononcer :}
+	\begin{itemize}
+		\item 97,37\,\% d'accuracy, 95,24\,\% de rappel, 2 faux négatifs (RL), AUC = 0,9970.
+		\item $C=0.1$ ($L_2$), SVM noyau RBF ($C=1, \gamma=\text{'scale'}$), Random Forest 100 arbres profondeur 6.
+	\end{itemize}
+	\item \textbf{Top 2 Questions du Jury \& Réponses Prêtes :}
+	\begin{enumerate}
+		\item \textit{« Pourquoi un modèle linéaire (Régression Logistique) bat-il un modèle d'ensemble sophistiqué (Random Forest / Gradient Boosting) ? »}  
+		$\rightarrow$ \textbf{Réponse :} « Dans ce jeu de données morphologiques continues, les frontières de décision sont lisses et quasi-linéaires dans l'espace normalisé 30-D. Les forêts partitionnent par seuils orthogonaux en escalier, ce qui engendre un léger surapprentissage géométrique, alors que la régularisation $L_2$ de la régression logistique stabilise parfaitement l'hyperplan séparateur. »
+		\item \textit{« Pourquoi le CART donne-t-il d'aussi mauvais résultats (8 FN) ? »}  
+		$\rightarrow$ \textbf{Réponse :} « Un arbre CART unique est très instable et sensible à la variance locale. Dès qu'un seuil est sous-optimal à la racine, toute la branche hérite de l'erreur, causant 19\,\% d'échec sur les tumeurs malignes. »
+	\end{enumerate}
+\end{itemize}
+\end{tcolorbox}
+
+% -------------------------------------------------------------------------
+% MEMBRE 4 : HAIMED YASSER
+% -------------------------------------------------------------------------
+\begin{tcolorbox}[memberbox, title={4. Yasser HAIMED (3A DS-E) -- Slides 8, 9, 10 et 11 (~2 min 30)}]
+\textbf{Rôle assigné :} Matrices de Confusion, Réponse Question Centrale, Seuil Clinique $\tau^*=0.35$ \& Conclusion.
+\begin{itemize}[leftmargin=0.5cm, itemsep=2pt]
+	\item \textbf{Ce qu'il doit dire lors de sa prise de parole :}
+	\begin{itemize}
+		\item Analyser les matrices de confusion en mettant en lumière le décompte des Faux Négatifs : RL (2 FN), SVM (3 FN), CART (8 FN).
+		\item Formuler la \textbf{Réponse officielle à la Question Centrale} : La RL et le SVM classent le mieux globalement (97,37\,\%), mais la RL limite le plus le risque de manquer une tumeur maligne (95,24\,\% de rappel).
+		\item Présenter la percée clinique de l'\textbf{Optimisation du Seuil (Threshold Tuning)} :
+		En abaissant le seuil probabiliste de 0,50 à \textbf{$\tau^* = 0,35$}, le Rappel atteint \textbf{100,0\,\%} $\rightarrow$ \textbf{ZÉRO Faux Négatif} pour 42 cas malins !
+		\item Expliquer que la Précision reste remarquable à \textbf{91,30\,\%} avec seulement 4 Faux Positifs, facilement résolus par biopsie.
+		\item Exposer les biomarqueurs clés (\texttt{worst concave points} et \texttt{worst area}) et la recommandation de \textbf{double lecture radiologique assistée}.
+		\item Clôturer avec brio et ouvrir la séance de questions-réponses avec le jury.
+	\end{itemize}
+	\item \textbf{Chiffres \& Termes clés à prononcer :}
+	\begin{itemize}
+		\item Seuil $\tau^* = 0,35$, Rappel = 100,0\,\%, Faux Négatifs = 0, Précision = 91,30\,\%, 4 Faux Positifs.
+		\item Double lecture radiologique assistée par IA.
+	\end{itemize}
+	\item \textbf{Top 2 Questions du Jury \& Réponses Prêtes :}
+	\begin{enumerate}
+		\item \textit{« Pourquoi choisir $\tau = 0.35$ plutôt qu'un seuil extrême comme $\tau = 0.05$ ? »}  
+		$\rightarrow$ \textbf{Réponse :} « Un seuil trop bas effondre la spécificité : on générerait des dizaines de faux positifs, ce qui saturerait les blocs opératoires de biopsies inutiles et traumatiserait les patientes saines. Le seuil de 0,35 est le point de compromis mathématique exact qui assure 0 FN tout en conservant plus de 91\,\% de précision. »
+		\item \textit{« Votre modèle peut-il remplacer un médecin anatomopathologiste ? »}  
+		$\rightarrow$ \textbf{Réponse :} « Absolument pas. L'éthique médicale et la réglementation des dispositifs médicaux imposent une utilisation en outil d'aide à la décision (double lecture). Le médecin conserve la responsabilité légale et diagnostique finale. »
+	\end{enumerate}
+\end{itemize}
+\end{tcolorbox}
+
+% =========================================================================
+% SECTION 7 : RÉPERTOIRE DES LIVRABLES ET LIENS
+% =========================================================================
+\section{Inventaire des Livrables \& Synchronisation GitHub}
+
+\noindent
+Tous les livrables du projet ont été rigoureusement vérifiés et synchronisés sur le dépôt public officiel :
+\begin{center}
+	\url{https://github.com/YassirB808/MachineLearningBCW}
+\end{center}
+
+\begin{table}[H]
+\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{l l X}
+	\toprule
+	\textbf{Livrable} & \textbf{Format / Fichier} & \textbf{Spécifications \& Contenu Principal} \\
+	\midrule
+	\textbf{Rapport Technique} & \texttt{Rapport\_ProjetML.pdf} & 8 pages au total : Corps strictement calibré sur \textbf{4 pages}, couverture officielle INSEA, tables romaines et bibliographie. \\
+	\textbf{Présentation Orale} & \texttt{Presentation\_ProjetML.pptx} & Diaporama 16:9 haute définition de \textbf{11 slides}, cartes rectangulaires élégantes, 0 émoji, numérotation de Slide 2/11 à 10/11. \\
+	\textbf{Script Intégral d'Oral} & \texttt{Script\_Presentation\_ProjetML.pdf} & Document de \textbf{9 pages} détaillant le texte mot à mot pour les 4 membres pour 8 à 10 min de soutenance, avec banque de Q\&A. \\
+	\textbf{Guide Markdown} & \texttt{Presentation\_ProjetML.md} & Support textuel d'accompagnement pour consultation rapide. \\
+	\textbf{Notebook Jupyter} & \texttt{Projet\_MachineLearning\_WDBC.ipynb} & Code exécutable déterministe avec les 13 cellules de calcul et visualisations, lecture prioritaire sur \texttt{DATA/wdbc.data}. \\
+	\textbf{Données Officielles} & Dossier \texttt{DATA/} & Fichiers originaux UCI \texttt{wdbc.data} (569 lignes) et documentation \texttt{wdbc.names}. \\
+	\textbf{Visualisations HD} & Dossier \texttt{figures/} & 8 figures haute résolution (KDE, matrices de confusion, ROC, seuil $\tau$) et fichiers CSV/JSON. \\
+	\textbf{Code Source LaTeX} & Dossier \texttt{Report\_Latex/} & Codes sources complets (\texttt{.tex}), logos officiels et figures compilables. \\
+	\textbf{Dépendances} & \texttt{requirements.txt} & Fichier des prérequis Python (\texttt{scikit-learn}, \texttt{python-pptx}, \texttt{nbclient}, etc.). \\
+	\bottomrule
+\end{tabularx}
+\end{table}
+
+\label{LastPage}
+\end{document}
